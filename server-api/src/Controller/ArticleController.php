@@ -36,17 +36,17 @@ class ArticleController extends AbstractController
         return $this->json($items);
     }
 
-    #[Route('/article/{id}', name: 'article_show')]
+    #[Route('/article/{id}', name: 'article_show', methods: ["GET", "HEAD"])]
     public function show(int $id): Response
     {
         $article = $this->getDoctrine()->getRepository(Article::class)->find($id);
         if(empty($article)) {
             return $this->json(["message" => "This product doesn't exist!"]);
         }
-        $items = [];
+        $item = [];
         $stock = ($article->getQuantity() > 0) ? "stock" : "empty";
         $features = $this->getFeatures($article);
-        $items[] = [
+        $item[] = [
             "name" => $article->getName(),
             "price" => $article->getPrice(),
             "description" =>  $article->getDescription(),
@@ -55,7 +55,7 @@ class ArticleController extends AbstractController
             "features" => $features
         ];
         
-        return $this->json($items);
+        return $this->json($item);
     }
 
     #[Route('/article_new', name: 'article_create', methods: ["POST"])]
@@ -98,6 +98,21 @@ class ArticleController extends AbstractController
         
         
         return $this->json(["message" => "Product not updated!"]);
+    }
+    #[Route('/article/{id}', name: 'article_delete', methods: ["DELETE"])]
+    public function delete( int $id): Response
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $article = $this->getDoctrine()->getRepository(Article::class)->find($id);
+        if(!$article){
+            return $this->json(["message" => "This product doesn't exist!"]);
+        }
+        $this->removeFeatures($article, $entityManager);
+        $entityManager->remove($article);
+        $entityManager->flush();
+        
+        
+        return $this->json(["message" => "Product deleted!"]);
     }
 
     protected function getFeatures(Article $article)
