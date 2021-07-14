@@ -78,6 +78,27 @@ class ArticleController extends AbstractController
         
         return $this->json(["message" => "Product not created!"]);
     }
+    #[Route('/article/edit/{id}', name: 'article_edit', methods: ["PUT"])]
+    public function update(Request $request, int $id): Response
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $article = $this->getDoctrine()->getRepository(Article::class)->find($id);
+        $article->setName($request->get("name"));
+        $article->setPrice($request->get("price"));
+        $article->setDescription($request->get("description"));
+        $article->setQuantity($request->get("quantity"));
+        $article->setUuid($request->get("uuid"));
+        $entityManager->persist($article);
+        if($entityManager->flush() !== false){
+            //$this->setImages($article, $request, $entityManager);
+            $this->removeFeatures($article, $entityManager);
+            $this->setFeatures($article, $request, $entityManager);
+            return $this->json(["message" => "Product updated!"]);
+        }
+        
+        
+        return $this->json(["message" => "Product not updated!"]);
+    }
 
     protected function getFeatures(Article $article)
     {
@@ -124,9 +145,18 @@ class ArticleController extends AbstractController
 
         foreach($features_array as $feature){
             $global_feature = new GlobalFeature();
-            $global_feature->setArticleId($article->getId());
-            $global_feature->setFeatureId($feature->getId());
+            $global_feature->setArticleId($article);
+            $global_feature->setFeatureId($feature);
             $entityManager->persist($global_feature);
+        }
+        $entityManager->flush();
+    }
+
+    protected function removeFeatures(Article $article, $entityManager)
+    {
+        $global_features = $this->getDoctrine()->getRepository(GlobalFeature::class)->findBy(["article_id" => $article->getId()]);
+        foreach($global_features as $item){
+            $entityManager->remove($item);
         }
         $entityManager->flush();
     }
