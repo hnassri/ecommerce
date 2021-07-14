@@ -4,9 +4,11 @@ namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Article;
 use App\Entity\Feature;
+use App\Entity\Image;
 use App\Entity\GlobalFeature;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -56,6 +58,27 @@ class ArticleController extends AbstractController
         return $this->json($items);
     }
 
+    #[Route('/article_new', name: 'article_create', methods: ["POST"])]
+    public function create(Request $request): Response
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $article = new Article();
+        $article->setName($request->get("name"));
+        $article->setPrice($request->get("price"));
+        $article->setDescription($request->get("description"));
+        $article->setQuantity($request->get("quantity"));
+        $article->setUuid($request->get("uuid"));
+        $entityManager->persist($article);
+        if($entityManager->flush() !== false){
+            //$this->setImages($article, $request, $entityManager);
+            $this->setFeatures($article, $request, $entityManager);
+            return $this->json(["message" => "Product created!"]);
+        }
+        
+        
+        return $this->json(["message" => "Product not created!"]);
+    }
+
     protected function getFeatures(Article $article)
     {
         $global_features = $this->getDoctrine()->getRepository(GlobalFeature::class)->findBy(["article_id" => $article->getId()]);
@@ -65,5 +88,46 @@ class ArticleController extends AbstractController
             $features[] = $feature->getName();
         }
         return $features;
+    }
+
+    protected function setImages(Article $article, Request $request, $entityManager)
+    {
+        $img_file = $request->get("image");
+        $filename = md5(uniqid()) . "." . $img_file->guessExtention();
+        $img_file->move("./src/public/uploads/" . $filename);
+        $image = new Image();
+        $image->setUuid($article->getUuid());
+        $image->setArticleId($article->getId());
+        $image->setUrl("./src/public/uploads/" . $filename);
+        $entityManager->persist($image);
+    }
+
+    protected function setFeatures(Article $article, Request $request, $entityManager)
+    {
+        $features = $request->get("features");
+        $features_array = [];
+        foreach($features as $feature_name){
+            $feature = $this->getDoctrine()->getRepository(Feature::class)->findOneByname(["name" => $feature_name]);
+            if(empty($feature)){
+                $feature = new Feature();
+                $feature->setName($feature_name);
+                $entityManager->persist($feature);
+                $entityManager->flush();
+                $features_array[] = $feature;
+            }else {
+                $global_feature = new GlobalFeature();
+                $global_feature->setArticleId($article);
+                $global_feature->setFeatureId($feature);
+                $entityManager->persist($global_feature);
+            }
+        }
+
+        foreach($features_array as $feature){
+            $global_feature = new GlobalFeature();
+            $global_feature->setArticleId($article->getId());
+            $global_feature->setFeatureId($feature->getId());
+            $entityManager->persist($global_feature);
+        }
+        $entityManager->flush();
     }
 }
