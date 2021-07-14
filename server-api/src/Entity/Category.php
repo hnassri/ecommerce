@@ -31,9 +31,15 @@ class Category
      */
     private $globalCategories;
 
+    /**
+     * @ORM\OneToMany(targetEntity=GlobalCategory::class, mappedBy="category")
+     */
+    private $category_id;
+
     public function __construct()
     {
         $this->globalCategories = new ArrayCollection();
+        $this->category_id = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -77,6 +83,36 @@ class Category
             // set the owning side to null (unless already changed)
             if ($globalCategory->getIdCategory() === $this) {
                 $globalCategory->setIdCategory(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|GlobalCategory[]
+     */
+    public function getCategoryId(): Collection
+    {
+        return $this->category_id;
+    }
+
+    public function addCategoryId(GlobalCategory $categoryId): self
+    {
+        if (!$this->category_id->contains($categoryId)) {
+            $this->category_id[] = $categoryId;
+            $categoryId->setCategory($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCategoryId(GlobalCategory $categoryId): self
+    {
+        if ($this->category_id->removeElement($categoryId)) {
+            // set the owning side to null (unless already changed)
+            if ($categoryId->getCategory() === $this) {
+                $categoryId->setCategory(null);
             }
         }
 

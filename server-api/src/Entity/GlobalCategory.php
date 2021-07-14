@@ -20,15 +20,16 @@ class GlobalCategory
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity=category::class, inversedBy="globalCategories")
+     * @ORM\ManyToOne(targetEntity=article::class, inversedBy="global_id")
      */
-    private $id_category;
+    private $article;
 
     /**
-     * @ORM\ManyToOne(targetEntity=article::class, inversedBy="globalCategories")
+     * @ORM\ManyToOne(targetEntity=category::class, inversedBy="category_id")
      */
-    private $id_article;
+    private $category;
 
+  
     public function getId(): ?int
     {
         return $this->id;
@@ -54,6 +55,30 @@ class GlobalCategory
     public function setIdArticle(?article $id_article): self
     {
         $this->id_article = $id_article;
+
+        return $this;
+    }
+
+    public function getArticle(): ?article
+    {
+        return $this->article;
+    }
+
+    public function setArticle(?article $article): self
+    {
+        $this->article = $article;
+
+        return $this;
+    }
+
+    public function getCategory(): ?category
+    {
+        return $this->category;
+    }
+
+    public function setCategory(?category $category): self
+    {
+        $this->category = $category;
 
         return $this;
     }

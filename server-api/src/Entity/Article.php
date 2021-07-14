@@ -73,12 +73,30 @@ class Article
      */
     private $globalCategories;
 
+    /**
+     * @ORM\OneToMany(targetEntity=GlobalCategory::class, mappedBy="article")
+     */
+    private $global_id;
+
+    /**
+     * @ORM\OneToMany(targetEntity=GlobalFeature::class, mappedBy="article")
+     */
+    private $global_feature;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Image::class, mappedBy="article")
+     */
+    private $image;
+
     public function __construct()
     {
         $this->images = new ArrayCollection();
         $this->globalFeatures = new ArrayCollection();
         $this->article = new ArrayCollection();
         $this->globalCategories = new ArrayCollection();
+        $this->global_id = new ArrayCollection();
+        $this->global_feature = new ArrayCollection();
+        $this->image = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -197,27 +215,7 @@ class Article
         return $this->globalFeatures;
     }
 
-    public function addGlobalFeature(GlobalFeature $globalFeature): self
-    {
-        if (!$this->globalFeatures->contains($globalFeature)) {
-            $this->globalFeatures[] = $globalFeature;
-            $globalFeature->setIdFeature($this);
-        }
 
-        return $this;
-    }
-
-    public function removeGlobalFeature(GlobalFeature $globalFeature): self
-    {
-        if ($this->globalFeatures->removeElement($globalFeature)) {
-            // set the owning side to null (unless already changed)
-            if ($globalFeature->getIdFeature() === $this) {
-                $globalFeature->setIdFeature(null);
-            }
-        }
-
-        return $this;
-    }
 
     /**
      * @return Collection|GlobalFeature[]
@@ -277,5 +275,65 @@ class Article
         }
 
         return $this;
+    }
+
+    /**
+     * @return Collection|GlobalCategory[]
+     */
+    public function getGlobalId(): Collection
+    {
+        return $this->global_id;
+    }
+
+    public function addGlobalId(GlobalCategory $globalId): self
+    {
+        if (!$this->global_id->contains($globalId)) {
+            $this->global_id[] = $globalId;
+            $globalId->setArticle($this);
+        }
+
+        return $this;
+    }
+
+    public function removeGlobalId(GlobalCategory $globalId): self
+    {
+        if ($this->global_id->removeElement($globalId)) {
+            // set the owning side to null (unless already changed)
+            if ($globalId->getArticle() === $this) {
+                $globalId->setArticle(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function addGlobalFeature(GlobalFeature $globalFeature): self
+    {
+        if (!$this->global_feature->contains($globalFeature)) {
+            $this->global_feature[] = $globalFeature;
+            $globalFeature->setArticle($this);
+        }
+
+        return $this;
+    }
+
+    public function removeGlobalFeature(GlobalFeature $globalFeature): self
+    {
+        if ($this->global_feature->removeElement($globalFeature)) {
+            // set the owning side to null (unless already changed)
+            if ($globalFeature->getArticle() === $this) {
+                $globalFeature->setArticle(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Image[]
+     */
+    public function getImage(): Collection
+    {
+        return $this->image;
     }
 }

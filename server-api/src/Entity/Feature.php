@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\FeatureRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -24,6 +26,16 @@ class Feature
      */
     private $name;
 
+    /**
+     * @ORM\OneToMany(targetEntity=GlobalFeature::class, mappedBy="feature")
+     */
+    private $globalFeatures;
+
+    public function __construct()
+    {
+        $this->globalFeatures = new ArrayCollection();
+    }
+
   
 
 
@@ -40,6 +52,36 @@ class Feature
     public function setName(string $name): self
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|GlobalFeature[]
+     */
+    public function getGlobalFeatures(): Collection
+    {
+        return $this->globalFeatures;
+    }
+
+    public function addGlobalFeature(GlobalFeature $globalFeature): self
+    {
+        if (!$this->globalFeatures->contains($globalFeature)) {
+            $this->globalFeatures[] = $globalFeature;
+            $globalFeature->setFeature($this);
+        }
+
+        return $this;
+    }
+
+    public function removeGlobalFeature(GlobalFeature $globalFeature): self
+    {
+        if ($this->globalFeatures->removeElement($globalFeature)) {
+            // set the owning side to null (unless already changed)
+            if ($globalFeature->getFeature() === $this) {
+                $globalFeature->setFeature(null);
+            }
+        }
 
         return $this;
     }

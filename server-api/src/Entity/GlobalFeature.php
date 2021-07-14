@@ -21,18 +21,18 @@ class GlobalFeature
      */
     private $id;
 
-
+    /**
+     * @ORM\ManyToOne(targetEntity=article::class, inversedBy="global_feature")
+     */
+    private $article;
 
     /**
-     * @ORM\ManyToOne(targetEntity=article::class, inversedBy="globalFeatures")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\ManyToOne(targetEntity=feature::class, inversedBy="globalFeatures")
      */
-    private $id_feature;
+    private $feature;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=article::class, inversedBy="article")
-     */
-    private $id_article;
+
+
 
     public function __construct()
     {
@@ -45,36 +45,30 @@ class GlobalFeature
         return $this->id;
     }
 
-    /**
-     * @return Collection|feature[]
-     */
-    public function getIdFeature(): Collection
+    public function getArticle(): ?article
     {
-        return $this->id_feature;
+        return $this->article;
     }
 
-    
-
-    /**
-     * @return Collection|article[]
-     */
-
-    public function setIdFeature(?article $id_feature): self
+    public function setArticle(?article $article): self
     {
-        $this->id_feature = $id_feature;
+        $this->article = $article;
 
         return $this;
     }
 
-    public function getIdArticle(): ?article
+    public function getFeature(): ?feature
     {
-        return $this->id_article;
+        return $this->feature;
     }
 
-    public function setIdArticle(?article $id_article): self
+    public function setFeature(?feature $feature): self
     {
-        $this->id_article = $id_article;
+        $this->feature = $feature;
 
         return $this;
     }
+
+
+
 }

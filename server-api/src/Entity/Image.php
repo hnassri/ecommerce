@@ -24,15 +24,17 @@ class Image
      */
     private $url;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=article::class, inversedBy="images")
-     */
-    private $id_article;
+ 
 
     /**
      * @ORM\Column(type="string", length=255)
      */
     private $uid;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=article::class, inversedBy="image")
+     */
+    private $article;
 
    
 
@@ -53,17 +55,7 @@ class Image
         return $this;
     }
 
-    public function getIdArticle(): ?article
-    {
-        return $this->id_article;
-    }
-
-    public function setIdArticle(?article $id_article): self
-    {
-        $this->id_article = $id_article;
-
-        return $this;
-    }
+  
 
     public function getUid(): ?string
     {
@@ -73,6 +65,18 @@ class Image
     public function setUid(string $uid): self
     {
         $this->uid = $uid;
+
+        return $this;
+    }
+
+    public function getArticle(): ?article
+    {
+        return $this->article;
+    }
+
+    public function setArticle(?article $article): self
+    {
+        $this->article = $article;
 
         return $this;
     }
