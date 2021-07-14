@@ -78,6 +78,7 @@ class ArticleController extends AbstractController
         
         return $this->json(["message" => "Product not created!"]);
     }
+    
     #[Route('/article/edit/{id}', name: 'article_edit', methods: ["PUT"])]
     public function update(Request $request, int $id): Response
     {
@@ -99,6 +100,7 @@ class ArticleController extends AbstractController
         
         return $this->json(["message" => "Product not updated!"]);
     }
+    
     #[Route('/article/{id}', name: 'article_delete', methods: ["DELETE"])]
     public function delete( int $id): Response
     {
@@ -113,6 +115,27 @@ class ArticleController extends AbstractController
         
         
         return $this->json(["message" => "Product deleted!"]);
+    }
+
+    #[Route('/check_quantity/{id}', name: 'article_check_quantity', methods: ["POST"])]
+    public function checkQuantity(Request $request, int $id): Response
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $article = $this->getDoctrine()->getRepository(Article::class)->find($id);
+        if(!$article){
+            return $this->json(["message" => "This product doesn't exist!"]);
+        }
+        $nb_to_check = 1;
+        if($request->get("quantity") !== null){
+            $nb_to_check = $request->get("quantity");
+        }
+        if($article->getQuantity() - $nb_to_check >= 0){
+            $article->setQuantity($article->getQuantity() - $nb_to_check);
+            $entityManager->persist($article);
+            $entityManager->flush();
+            return $this->json(["message" => "Command passed successfully!"]);
+        }
+        return $this->json(["message" => "Sorry but we don't have enough items to assurs your command"]);
     }
 
     protected function getFeatures(Article $article)
