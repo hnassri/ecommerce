@@ -28,7 +28,9 @@ class AuthAuthenticator extends AbstractAuthenticator
 
     public function supports(Request $request): ?bool
     {
+        
        return $request->attributes->get('_route') == 'api_login'
+
         && $request->isMethod('POST');
 
 
@@ -49,7 +51,7 @@ class AuthAuthenticator extends AbstractAuthenticator
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
     {
-        dd("succes");
+        return('succses');
     }
 
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception): ?Response
