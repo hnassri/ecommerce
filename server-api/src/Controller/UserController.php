@@ -133,4 +133,77 @@ class UserController extends AbstractController
             400
         );
     }
+
+    #[Route('/api/v1/user/edit/password/{id}', name: "user_password", methods: "PATCH")]
+    public function uptade_password($id = 0 , Request $request =null , UserRepository $userRepository =null): Response
+    {
+        if (!$id || (int)$id == 0) {
+            return $this->json(
+                [
+                    "success" => false,
+                    "error" => "user id not specified"
+                ],
+                404
+            );
+        }
+
+        if (!$request->request->has("password")) {
+            return $this->json(
+                [
+                    "success" => false,
+                    "error" => "password required"
+                ],
+                404
+            );
+        }
+        if (!$request->request->has("newpassword")) {
+            return $this->json(
+                [
+                    "success" => false,
+                    "error" => "newpassword required"
+                ],
+                404
+            );
+        }
+        if($current_password = $request->request->get("password")){
+            $user = $userRepository->find($id);
+    
+             if(!$this->check_password($current_password,$user->getEmail(),$userRepository)){
+                     return $this->json([
+                         "success"=>false,
+                         "error"=> "the current password is incorrect"
+                     ]);
+             }
+        }
+
+        $entityManager = $this->getDoctrine()->getManager();
+        $user = $userRepository->find($id);
+        $user->setPassword(password_hash($request->request->get("newpassword"), PASSWORD_BCRYPT));
+        $entityManager->persist($user);
+
+        if (!$entityManager->flush()) {
+            return $this->json(
+                [
+                    "success" => true,
+                    "payload" => "password has been updated"
+                ],
+                200
+            );
+        }
+
+        
+        
+        dd($user);
+
+        return "salut";
+
+    }
+
+    private function check_password(string $password, string $email, UserRepository $userRepository): bool
+    {
+        $user = $userRepository
+            ->findOneBy(['email' => $email]);
+
+        return password_verify($password, $user->getPassword());
+    }
 }
