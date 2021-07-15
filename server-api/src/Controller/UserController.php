@@ -190,13 +190,6 @@ class UserController extends AbstractController
                 200
             );
         }
-
-        
-        
-        dd($user);
-
-        return "salut";
-
     }
 
     private function check_password(string $password, string $email, UserRepository $userRepository): bool
