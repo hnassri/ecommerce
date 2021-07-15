@@ -98,4 +98,25 @@ class CategoryController extends AbstractController
             "message" => "An error occured, this category has not be updated!"
         ]);
     }
+
+    #[Route('/category/{id}', name: 'category_delete', methods: ["DELETE"])]
+    public function delete( int $id): Response
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $category = $this->getDoctrine()->getRepository(Category::class)->find($id);
+        if(!$category){
+            return $this->json([
+                "success" => "false",
+                "message" => "This Category doesn't exist!"
+            ]);
+        }
+        $entityManager->remove($category);
+        $entityManager->flush();
+        
+        
+        return $this->json([
+            "success" => "true",
+            "message" => "Category deleted!"
+        ]);
+    }
 }
