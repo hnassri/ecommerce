@@ -51,7 +51,9 @@ class SecurityController extends AbstractController
                     "aud" => "http://localhost:8000",
                     "iat" => time(),
                     "exp" => time() + 3600 + (24 * 60 * 60),
-                    "email" => $user->getEmail()
+                    "email" => $user->getEmail(),
+                    "role" =>$user->getRoles()
+                     
 
                 );
                 return $this->json([
