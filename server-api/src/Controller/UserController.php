@@ -2,17 +2,19 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+
 
 class UserController extends AbstractController
 {
     #[Route('/api/v1/user/{id}', name: 'user_info', methods: "GET")]
-    public function user_info($id = null, UserRepository $userRepository = null): Response
+    public function user_info($id = 0, UserRepository $userRepository = null): Response
     {
-
         if (!$id || (int)$id == 0) {
             return $this->json(
                 [
@@ -48,4 +50,87 @@ class UserController extends AbstractController
         ], 200);
     }
 
+
+    #[Route('/api/v1/user/edit/{id}', name: 'user_update', methods: "PUT")]
+    public function update_user($id = 0, Request $request = null, UserRepository $userRepository = null): Response
+    {
+        if (!$id || (int)$id == 0) {
+            return $this->json(
+                [
+                    "success" => false,
+                    "error" => "user id not specified"
+                ],
+                404
+            );
+        }
+
+
+        if (!$request->request->has("email") || !$request->request->has("roles")) {
+            return $this->json(
+                [
+                    "success" => false,
+                    "error" => "email,roles,name,first name are required"
+                ],
+                500
+            );
+        }
+        if ($email = $request->request->get('email')) {
+            if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                return $this->json(
+                    [
+                        "success" => false,
+                        "error" => "email address is invalid"
+                    ],
+                    500
+                );
+            }
+            $user = $userRepository->findOneBy([
+                "email" => $email
+            ]);
+            if ($user) {
+                return $this->json(
+                    [
+                        "success" => false,
+                        "error" => "already exists in the database"
+                    ],
+                    500
+                );
+            }
+        }
+        if ($role = $request->request->get("roles")) {
+            $role = json_decode($role);
+            if ($role[0] == "ROLE_USER" || $role[0] == "ROLE_ADMIN") {
+            } else {
+                return $this->json(
+                    [
+                        "success" => true,
+                        "error" => "wrong role format"
+                    ]
+                );
+            }
+        }
+
+        $entityManager = $this->getDoctrine()->getManager();
+        $user = $userRepository->find($id);
+        $user->setEmail($email);
+        $user->setRoles($role);
+        $entityManager->persist($user);
+
+        if (!$entityManager->flush()) {
+            return $this->json(
+                [
+                    "success" => true,
+                    "payload" => "user information has been updated"
+                ],
+                200
+            );
+        }
+        return $this->json(
+            [
+                "success" => false,
+                "error" => "the update has not been carried out"
+            ],
+            400
+        );
+    }
 }
