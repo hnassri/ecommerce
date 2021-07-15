@@ -2,23 +2,14 @@
 
 namespace App\Entity;
 
-<<<<<<< HEAD
-use ApiPlatform\Core\Annotation\ApiResource;
-use App\Repository\ArticleRepository;
-=======
 use App\Repository\ArticleRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
->>>>>>> 6aa96dd6692ce48baccd3309ccffa8fb23f348fe
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=ArticleRepository::class)
  */
-<<<<<<< HEAD
-#[ApiResource]
-=======
->>>>>>> 6aa96dd6692ce48baccd3309ccffa8fb23f348fe
 class Article
 {
     /**
@@ -34,14 +25,11 @@ class Article
     private $name;
 
     /**
-<<<<<<< HEAD
-=======
      * @ORM\Column(type="float")
      */
     private $price;
 
     /**
->>>>>>> 6aa96dd6692ce48baccd3309ccffa8fb23f348fe
      * @ORM\Column(type="integer")
      */
     private $quantity;
@@ -52,17 +40,6 @@ class Article
     private $description;
 
     /**
-<<<<<<< HEAD
-     * @ORM\Column(type="integer")
-     */
-    private $price;
-
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $uid;
-=======
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $uuid;
@@ -88,7 +65,6 @@ class Article
         $this->globalCategories = new ArrayCollection();
         $this->globalFeatures = new ArrayCollection();
     }
->>>>>>> 6aa96dd6692ce48baccd3309ccffa8fb23f348fe
 
     public function getId(): ?int
     {
@@ -107,8 +83,6 @@ class Article
         return $this;
     }
 
-<<<<<<< HEAD
-=======
     public function getPrice(): ?float
     {
         return $this->price;
@@ -121,7 +95,6 @@ class Article
         return $this;
     }
 
->>>>>>> 6aa96dd6692ce48baccd3309ccffa8fb23f348fe
     public function getQuantity(): ?int
     {
         return $this->quantity;
@@ -146,16 +119,6 @@ class Article
         return $this;
     }
 
-<<<<<<< HEAD
-    public function getPrice(): ?int
-    {
-        return $this->price;
-    }
-
-    public function setPrice(int $price): self
-    {
-        $this->price = $price;
-=======
     public function getUuid(): ?string
     {
         return $this->uuid;
@@ -164,22 +127,10 @@ class Article
     public function setUuid(?string $uuid): self
     {
         $this->uuid = $uuid;
->>>>>>> 6aa96dd6692ce48baccd3309ccffa8fb23f348fe
 
         return $this;
     }
 
-<<<<<<< HEAD
-
-    public function getUid(): ?string
-    {
-        return $this->uid;
-    }
-
-    public function setUid(string $uid): self
-    {
-        $this->uid = $uid;
-=======
     /**
      * @return Collection|Image[]
      */
@@ -266,7 +217,6 @@ class Article
                 $globalFeature->setArticleId(null);
             }
         }
->>>>>>> 6aa96dd6692ce48baccd3309ccffa8fb23f348fe
 
         return $this;
     }

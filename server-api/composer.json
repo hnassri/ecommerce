@@ -32,6 +32,9 @@
         "symfony/validator": "5.3.*",
         "symfony/yaml": "5.3.*"
     },
+    "require-dev": {
+        "symfony/maker-bundle": "^1.33"
+    },
     "config": {
         "optimize-autoloader": true,
         "preferred-install": {
@@ -74,8 +77,5 @@
             "allow-contrib": false,
             "require": "5.3.*"
         }
-    },
-    "require-dev": {
-        "symfony/maker-bundle": "^1.33"
     }
 }
