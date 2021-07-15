@@ -15,7 +15,10 @@ class CategoryController extends AbstractController
     {
         $categories = $this->getDoctrine()->getRepository(Category::class)->findAll();
         if(empty($categories)) {
-            return $this->json(["message" => "No Categories founded!"]);
+            return $this->json([
+                "success" => false,
+                "message" => "No Categories founded!"
+            ], 403);
         }
         $items = [];
         foreach($categories as $category){
@@ -24,7 +27,10 @@ class CategoryController extends AbstractController
             ];
         }
         
-        return $this->json($items);
+        return $this->json([
+            "success" => true,
+            "items" => $items
+        ], 200);
     }
 
     #[Route('/category_new', name: 'category_create', methods: ["POST"])]
@@ -35,14 +41,14 @@ class CategoryController extends AbstractController
             return $this->json([
                 "success" => false,
                 "message" => "Please, give a name for the category!"
-            ]);
+            ], 403);
         }
         $category = $this->getDoctrine()->getRepository(Category::class)->findByName($request_name);
         if(empty($category) == false){
             return $this->json([
                 "success" => false,
                 "message" => "This category already exist!"
-            ]);
+            ], 403);
         }
         $entityManager = $this->getDoctrine()->getManager();
         $category = new Category();
@@ -52,12 +58,12 @@ class CategoryController extends AbstractController
             return $this->json([
                 "success" => true,
                 "message" => "Category created!"
-            ]);
+            ], 200);
         }
         return $this->json([
             "success" => false,
             "message" => "An error occured, this category has not be created!"
-        ]);
+        ], 403);
     }
 
     #[Route('/category/edit/{id}', name: 'category_edit', methods: ["PUT"])]
@@ -68,14 +74,14 @@ class CategoryController extends AbstractController
             return $this->json([
                 "success" => false,
                 "message" => "Please give a name, so we can update the category!"
-            ]);
+            ], 403);
         }
         $category = $this->getDoctrine()->getRepository(Category::class)->findOneByName($request_name);
         if(empty($category) == false){
             return $this->json([
                 "success" => false,
                 "message" => "This category already exist!"
-            ]);
+            ], 403);
         }
         $entityManager = $this->getDoctrine()->getManager();
         $category = $this->getDoctrine()->getRepository(Category::class)->find($id);
@@ -83,7 +89,7 @@ class CategoryController extends AbstractController
             return $this->json([
                 "success" => false,
                 "message" => "This category doesn't exist!"
-            ]);
+            ], 403);
         }
         $category->setName($request_name);
         $entityManager->persist($category);
@@ -91,12 +97,12 @@ class CategoryController extends AbstractController
             return $this->json([
                 "success" => true,
                 "message" => "Category updated!"
-            ]);
+            ], 200);
         }
         return $this->json([
             "success" => false,
             "message" => "An error occured, this category has not be updated!"
-        ]);
+        ], 403);
     }
 
     #[Route('/category/{id}', name: 'category_delete', methods: ["DELETE"])]
@@ -106,17 +112,17 @@ class CategoryController extends AbstractController
         $category = $this->getDoctrine()->getRepository(Category::class)->find($id);
         if(!$category){
             return $this->json([
-                "success" => "false",
+                "success" => false,
                 "message" => "This Category doesn't exist!"
-            ]);
+            ], 403);
         }
         $entityManager->remove($category);
         $entityManager->flush();
         
         
         return $this->json([
-            "success" => "true",
+            "success" => true,
             "message" => "Category deleted!"
-        ]);
+        ], 200);
     }
 }
