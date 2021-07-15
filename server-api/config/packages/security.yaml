@@ -1,42 +1,17 @@
 security:
+    enable_authenticator_manager: true
+    encoders:
+        App\Entity\User:
+            algorithm: bcrypt
     providers:
-        user:
+        # used to reload user from session & other features (e.g. switch_user)
+        app_user_provider:
             entity:
                 class: App\Entity\User
                 property: email
-        admin:
-            entity:
-                class: App\Entity\Admin
-                property: email
-    encoders:
-        App\Entity\User:
-            algorithm: auto
-            cost: 15
-        App\Entity\Admin:
-            algorithm: auto
-            cost: 15
-
-    role_hierarchy:
-        ROLE_ADMIN: ROLE_USER
-       
     firewalls:
         dev:
-            pattern: ^/(_(profiler|wdt)|css|images|img|js)/
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
-        login:
-            pattern:  ^/login
-            stateless: true
-            anonymous: true
-            provider: user
-            json_login:
-                check_path: /login
-                username_path: email
-                password_path: password
-                success_handler: lexik_jwt_authentication.handler.authentication_success
-       
-
     access_control:
-
-        - { path: ^/, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-   
+#        - { path: ^/api/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }

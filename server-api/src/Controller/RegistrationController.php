@@ -6,10 +6,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\User;
-use App\Form\RegisterUserType;
 use App\Repository\UserRepository;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+
 
 
 class RegistrationController extends AbstractController
@@ -18,7 +17,7 @@ class RegistrationController extends AbstractController
     *@Route("/register_user", name="register_user")
     */
    
-    public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder,UserRepository $user)
+    public function register(Request $request,UserRepository $user)
     {
         $em = $this->getDoctrine()->getManager();
         
@@ -27,15 +26,22 @@ class RegistrationController extends AbstractController
         $user = $user->findOneBy(['email' => $mail]);
         if(!$user){
             $users = new User();
-            $users->setPassword($passwordEncoder->encodePassword($users, $password));
+            $users->setPassword(password_hash($password, PASSWORD_BCRYPT));
             $users->setEmail($mail);
             $em->persist($users);
             $em->flush();
     
-            return new Response(sprintf('User %s successfully created', $users->getEmail()));
+            return $this->json([
+                "success" => true,
+                "payload" => 'user'.$mail.' has been registered'
+            
+            ],200);
         }
         else{
-            return new Response(sprintf('User exist created', $user->getEmail()));
+            return $this->json([
+                "success" => false,
+                "error" => 'user '.$user->getEmail().' already exists in the database'
+            ],400);
         }
    
     }
