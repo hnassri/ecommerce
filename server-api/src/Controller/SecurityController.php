@@ -52,7 +52,8 @@ class SecurityController extends AbstractController
                     "iat" => time(),
                     "exp" => time() + 3600 + (24 * 60 * 60),
                     "email" => $user->getEmail(),
-                    "role" =>$user->getRoles()
+                    "role" =>$user->getRoles(),
+                    "id" =>$user->getId()
                      
 
                 );
