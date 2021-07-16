@@ -12,21 +12,13 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class UserController extends AbstractController
 {
-    #[Route('/api/v1/user/{id}', name: 'user_info', methods: "GET")]
-    public function user_info($id = 0, UserRepository $userRepository = null): Response
+    #[Route('/api/v1/user', name: 'user_info', methods: "GET")]
+    public function user_info(UserRepository $userRepository = null , Request $request = null): Response
     {
-        if (!$id || (int)$id == 0) {
-            return $this->json(
-                [
-                    "success" => false,
-                    "error" => "user id not specified"
-                ],
-                404
-            );
-        }
 
+        $token = $this->info_token($request);
         $user = $userRepository->findOneBy([
-            "id" => $id
+            "id" => $token["id"]
         ]);
 
         if (!$user) {
@@ -51,19 +43,12 @@ class UserController extends AbstractController
     }
 
 
-    #[Route('/api/v1/user/edit/{id}', name: 'user_update', methods: "PUT")]
-    public function update_user($id = 0, Request $request = null, UserRepository $userRepository = null): Response
+    #[Route('/api/v1/user/edit', name: 'user_update', methods: "PUT")]
+    public function update_user(Request $request = null, UserRepository $userRepository = null): Response
     {
-        if (!$id || (int)$id == 0) {
-            return $this->json(
-                [
-                    "success" => false,
-                    "error" => "user id not specified"
-                ],
-                404
-            );
-        }
 
+
+        $token = $this->info_token($request);
 
         if (!$request->request->has("email") || !$request->request->has("roles")) {
             return $this->json(
@@ -84,17 +69,21 @@ class UserController extends AbstractController
                     500
                 );
             }
+
             $user = $userRepository->findOneBy([
                 "email" => $email
             ]);
             if ($user) {
-                return $this->json(
-                    [
-                        "success" => false,
-                        "error" => "already exists in the database"
-                    ],
-                    500
-                );
+                if ($user->getEmail() != $email) {
+
+                    return $this->json(
+                        [
+                            "success" => false,
+                            "error" => "already exists in the database"
+                        ],
+                        500
+                    );
+                }
             }
         }
         if ($role = $request->request->get("roles")) {
@@ -111,7 +100,7 @@ class UserController extends AbstractController
         }
 
         $entityManager = $this->getDoctrine()->getManager();
-        $user = $userRepository->find($id);
+        $user = $userRepository->find($token["id"]);
         $user->setEmail($email);
         $user->setRoles($role);
         $entityManager->persist($user);
@@ -135,7 +124,7 @@ class UserController extends AbstractController
     }
 
     #[Route('/api/v1/user/edit/password/{id}', name: "user_password", methods: "PATCH")]
-    public function uptade_password($id = 0 , Request $request =null , UserRepository $userRepository =null): Response
+    public function uptade_password($id = 0, Request $request = null, UserRepository $userRepository = null): Response
     {
         if (!$id || (int)$id == 0) {
             return $this->json(
@@ -165,15 +154,15 @@ class UserController extends AbstractController
                 404
             );
         }
-        if($current_password = $request->request->get("password")){
+        if ($current_password = $request->request->get("password")) {
             $user = $userRepository->find($id);
-    
-             if(!$this->check_password($current_password,$user->getEmail(),$userRepository)){
-                     return $this->json([
-                         "success"=>false,
-                         "error"=> "the current password is incorrect"
-                     ]);
-             }
+
+            if (!$this->check_password($current_password, $user->getEmail(), $userRepository)) {
+                return $this->json([
+                    "success" => false,
+                    "error" => "the current password is incorrect"
+                ]);
+            }
         }
 
         $entityManager = $this->getDoctrine()->getManager();
@@ -198,5 +187,10 @@ class UserController extends AbstractController
             ->findOneBy(['email' => $email]);
 
         return password_verify($password, $user->getPassword());
+    }
+    private function info_token(Request $request)
+    {
+
+        return $request->attributes->get('infotoken');
     }
 }
