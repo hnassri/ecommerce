@@ -13,5 +13,8 @@ security:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
+        main:
+            lazy: true
+            custom_authenticator: App\Security\AuthAuthenticator
     access_control:
 #        - { path: ^/api/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
