@@ -23,6 +23,7 @@ class CategoryController extends AbstractController
         $items = [];
         foreach($categories as $category){
             $items[] = [
+                "id" => $category->getId(),
                 "name" => $category->getName()
             ];
         }
