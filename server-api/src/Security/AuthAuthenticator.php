@@ -32,10 +32,10 @@ class AuthAuthenticator extends AbstractAuthenticator
             switch ($request->attributes->get('_route')){
                 // route proteger
                 case 'user_info':
-
-                    // only admin roles can access to api
+                    
+                   // only admin roles can access to api
                     return $this->check_authorization($request, ['ROLE_ADMIN']);
-                case 'user_in':
+                case 'user_update':
                     return $this->check_authorization($request, ['*']);
                 default:
                     return false; // Authorized route by using without token
@@ -46,7 +46,7 @@ class AuthAuthenticator extends AbstractAuthenticator
 
     public function authenticate(Request $request): PassportInterface
     {
-        $user = $this->userRepository->findBy(array('email' => $request->request->get('email')));
+        $user = $this->userRepository->findBy(array('email' => 'mohg'));
         
         if(!$user){
             throw new UserNotFoundException();
@@ -59,14 +59,15 @@ class AuthAuthenticator extends AbstractAuthenticator
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
     {
         return new JsonResponse([
-            "message" => "token invalide",
+            "message" => "ce code est la pour faire beau",
         ], 401);
     }
 
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception): ?Response
     {
         return new JsonResponse([
-            "message" => "Unauthorized",
+            "success"=> false,
+            "error" => "access deny, make sure you have a valid jwt key and the necessary permissions",
         ], 401);
     }
 
@@ -74,8 +75,10 @@ class AuthAuthenticator extends AbstractAuthenticator
     {
             $token = str_replace('Bearer ', '', $request->headers->get('authorization'));
             $token = trim($token);
+            
             try {
                 $decoded = JWT::decode($token, "9d12902d04e3cf1a094644a04915f6ef", array('HS256'));
+                $request->attributes->set('infotoken', (array)$decoded);
                 if ($roles[0] === '*'){
                     return false; // authorize request
                 } else {
