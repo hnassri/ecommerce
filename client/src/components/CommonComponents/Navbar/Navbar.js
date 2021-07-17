@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import App from "../../../App.css";
 import NavStyle from "./style.css";
-
+import { Link,Redirect,useHistory  } from "react-router-dom";
 class Navbar extends Component {
     render (){
         return (

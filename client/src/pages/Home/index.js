@@ -1,10 +1,15 @@
 import '../../App.css'
+import React, { Component ,useState} from "react"
 import Header from '../../components/CommonComponents/Header/Header'
 
-function Home () {
+
+
+const Home = props => {
     return (
         <>
             <Header />
         </>
     )
 }
+
+export default Home
