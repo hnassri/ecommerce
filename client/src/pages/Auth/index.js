@@ -3,11 +3,14 @@ import './style.css';
 import SetingUpFrom from '../../components/From/SignUpForm';
 import LoginFrom from '../../components/From/LoginForm';
 import Footer from '../../components/CommonComponents/Footer';
+import Header from '../../components/CommonComponents/Header/Header';
+
 
 const Auth = ()=>{
     return (
 
         <div class="main-wrapper">
+          <Header/>
 <main className="main-content">
   <div className="breadcrumb-area breadcrumb-height" >
     <div className="container h-100">
@@ -29,6 +32,7 @@ const Auth = ()=>{
   <div className="login-register-area section-space-y-axis-100">
     <div className="container">
       <div className="row">
+          
           <SetingUpFrom/>
         <Footer/>
       </div>

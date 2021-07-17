@@ -1,12 +1,21 @@
 import React, { Component ,useState} from "react";
-import 'bootstrap/dist/css/bootstrap.min.css';
-import Phone from './Phone/Phone'
-import Logo from './LogoCentre/Logo'
+import Phone from './Header-top/Phone/Phone'
+import Logo from './Header-top/LogoCentre/Logo'
+import Search from './Header-top/Search/Search'
+import Users from './Header-top/Users/Users'
+import Favoris from './Header-top/Favoris/Favoris'
+import Panier from './Header-top/Panier/PanierCount'
 import HeaderCss from './Header.css'
+import Home from './Header-Bottom/Home/Home'
+import Shop from './Header-Bottom/Shop/Shop'
+import About from './Header-Bottom/About/Aboutus'
+import Contact from './Header-Bottom/Contact/Contact'
+import Page from './Header-Bottom/Pages/Page'
+import 'bootstrap/dist/css/bootstrap.min.css';
 const Header=props=>{
 
 return(
-    
+<div>
 <div className="header-middle py-30">
         <div className="container">
             <div className="row align-items-center">
@@ -17,37 +26,10 @@ return(
 
                         <div className="header-right">
                             <ul>
-                                <li>
-                                    <a href="#exampleModal" className="search-btn bt" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                                        <i className="pe-7s-search"></i>
-                                    </a>
-                                </li>
-                                <li className="dropdown d-none d-lg-block">
-                                    <button className="btn btn-link dropdown-toggle ht-btn p-0" type="button" id="settingButton" data-bs-toggle="dropdown" aria-label="setting" aria-expanded="false">
-                                        <i className="pe-7s-users"></i>
-                                    </button>
-                                    <ul className="dropdown-menu" aria-labelledby="settingButton">
-                                        <li><a className="dropdown-item" href="my-account.html">My account</a></li>
-                                        <li><a className="dropdown-item" href="login-register.html">Login | Register</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li className="d-none d-lg-block">
-                                    <a href="wishlist.html">
-                                        <i className="pe-7s-like"></i>
-                                    </a>
-                                </li>
-                                <li className="minicart-wrap me-3 me-lg-0">
-                                    <a href="#miniCart" className="minicart-btn toolbar-btn">
-                                        <i className="pe-7s-shopbag"></i>
-                                        <span className="quantity">3</span>
-                                    </a>
-                                </li>
-                                <li className="mobile-menu_wrap d-block d-lg-none">
-                                    <a href="#mobileMenu" className="mobile-menu_btn toolbar-btn pl-0">
-                                        <i className="pe-7s-menu"></i>
-                                    </a>
-                                </li>
+                                <Search/>
+                                <Users/>
+                                <Favoris/>
+                               <Panier/>      
                             </ul>
                         </div>
                        
@@ -55,6 +37,27 @@ return(
                 </div>
             </div>
         </div>
+</div>
+ <div className="header-bottom d-none d-lg-block">
+  <div className="container">
+    <div className="row">
+      <div className="col-lg-12">
+        <div className="main-menu position-relative">
+          <nav className="main-nav">
+            <ul>
+                <Home/>
+                <Shop/>
+                <About/>
+                <Page/>
+                <Contact/>
+                
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 </div>
       )
     }
