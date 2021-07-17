@@ -17,19 +17,18 @@ class SecurityController extends AbstractController
 
     public function login(Request $request, UserRepository $userRepository)
     {
-
         if (!$request->request->has("email")) {
             return $this->json([
                 "success"=> false,
                 "error" => "an email adress is required"
-            ], 404);
+            ], 403);
         }
 
         if (!$request->request->has("password")) {
             return $this->json([
                 "success"=> false,
                 "error" => "a password is required"
-            ], 404);
+            ], 506);
         }
 
         if ($email = $request->request->get('email')) {
@@ -41,7 +40,7 @@ class SecurityController extends AbstractController
                 return $this->json([
                     "success"=> false,
                     "message" => "the password or email is incorrect"
-                ], 404);
+                ], 504);
             }
 
             if ($check = $this->check_password($request->request->get("password"), $email, $userRepository)) {
@@ -57,10 +56,29 @@ class SecurityController extends AbstractController
                      
 
                 );
-                return $this->json([
-                    "success"=>true,
+                $users = $userRepository->findOneBy([
                     "token" => JWT::encode($payload, $this->getParameter("app.salt"), "HS256", $user->getId())
                 ]);
+                if(!$users){
+                    $entityManager = $this->getDoctrine()->getManager();
+                    $user->setToken(JWT::encode($payload, $this->getParameter("app.salt"), "HS256", $user->getId()));
+                    $entityManager->persist($user);
+                    if($entityManager->flush() !== false){
+
+                        return $this->json([
+                            "success"=>true,
+                            "token" => JWT::encode($payload, $this->getParameter("app.salt"), "HS256", $user->getId())
+                        ]);
+                    }
+
+                }
+                else{
+                    return $this->json([
+                        "success"=> false,
+                        "message" => "token used"
+                    ], 404);
+                }
+                
             } else {
                 return $this->json([
                     "success"=> false,
