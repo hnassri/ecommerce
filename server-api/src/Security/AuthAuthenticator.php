@@ -82,15 +82,13 @@ class AuthAuthenticator extends AbstractAuthenticator
                     $decoded = JWT::decode($token, "9d12902d04e3cf1a094644a04915f6ef", array('HS256'));
                 
                     $request->attributes->set('infotoken', (array)$decoded);
-                    if(!$this->check_token($token,$request)){
-                        
-                    };
+                    $this->check_token($token,$request);
                     if ($roles[0] === '*'){
                         return false; // authorize request
                     } else {
                         // if roles is different than specified role the request is refused.
                         if ($decoded->role[0] !== $roles[0]){
-                            dd($request);
+                    
                             return true;
                         }
                     }
@@ -104,14 +102,17 @@ class AuthAuthenticator extends AbstractAuthenticator
     {
         $user = $this->userRepository->find($request->attributes->get('infotoken')['id']);
         //return empty($find_token) == false;
+        
        if($user){
         
            if($user->getToken() === $token){
-            return false;
+            dd('ok');
+            return true;
            }
            
        }
-       return true;
+       dd('ko');
+       return false;
         
     }
   
