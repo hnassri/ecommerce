@@ -25,6 +25,7 @@ class ArticleController extends AbstractController
         foreach($articles as $article){
             $stock = ($article->getQuantity() > 0) ? "stock" : "empty";
             $items[] = [
+                "id" => $article->getId(),
                 "name" => $article->getName(),
                 "price" => $article->getPrice(),
                 "description" =>  $article->getDescription(),
@@ -47,6 +48,7 @@ class ArticleController extends AbstractController
         $stock = ($article->getQuantity() > 0) ? "stock" : "empty";
         $features = $this->getFeatures($article);
         $item[] = [
+            "id" => $article->getId(),
             "name" => $article->getName(),
             "price" => $article->getPrice(),
             "description" =>  $article->getDescription(),
