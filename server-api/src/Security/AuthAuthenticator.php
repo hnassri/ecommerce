@@ -31,11 +31,19 @@ class AuthAuthenticator extends AbstractAuthenticator
         if ($request->attributes->has('_route')){
             switch ($request->attributes->get('_route')){
                 // route proteger
+                case 'article_create':
+                case 'article_edit':
+                case 'article_delete':
+                case 'category_create':
+                case 'category_edit':
+                case 'category_delete':
                 case 'user_info':
                     
                    // only admin roles can access to api
                     return $this->check_authorization($request, ['ROLE_ADMIN']);
                 case 'user_update':
+                case 'article':
+                case 'article_show':
                     return $this->check_authorization($request, ['*']);
                 default:
                     return false; // Authorized route by using without token
