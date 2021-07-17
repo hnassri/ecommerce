@@ -191,7 +191,7 @@ class ArticleController extends AbstractController
             return $this->json(["message" => "This product doesn't exist!"]);
         }
         $nb_to_check = 1;
-        if($request->get("quantity") !== null){
+        if($request->get("quantity") !== null && $request->get("quantity") > 0){
             $nb_to_check = $request->get("quantity");
         }
         if($article->getQuantity() - $nb_to_check >= 0){
