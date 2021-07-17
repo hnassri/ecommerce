@@ -1,12 +1,9 @@
 import React from 'react';
-
-
-import SetingUpFrom from './components/From/SignUpForm';
+import Auth from './pages/Auth';
 const App = ()=>{
   return (
     <>
-
-      <SetingUpFrom></SetingUpFrom>
+       <Auth/>
     
     </>
   );
