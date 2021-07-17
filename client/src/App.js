@@ -1,12 +1,12 @@
 import React from 'react';
 
 
-import SetingUpFrom from './components/From/SignUpForm';
+import Header from '../src/components/CommonComponents/Header/Header'
 const App = ()=>{
   return (
     <>
 
-      <SetingUpFrom></SetingUpFrom>
+    <Header/>
     
     </>
   );
