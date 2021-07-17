@@ -32,10 +32,11 @@ class AuthAuthenticator extends AbstractAuthenticator
             switch ($request->attributes->get('_route')){
                 // route proteger
                 case 'user_info':
-                    
+                case 'article_create':
                    // only admin roles can access to api
                     return $this->check_authorization($request, ['ROLE_ADMIN']);
                 case 'user_update':
+                
                     return $this->check_authorization($request, ['*']);
                 default:
                     return false; // Authorized route by using without token
@@ -75,24 +76,43 @@ class AuthAuthenticator extends AbstractAuthenticator
     {
             $token = str_replace('Bearer ', '', $request->headers->get('authorization'));
             $token = trim($token);
-            
-            try {
-                $decoded = JWT::decode($token, "9d12902d04e3cf1a094644a04915f6ef", array('HS256'));
-              
-                $request->attributes->set('infotoken', (array)$decoded);
-                if ($roles[0] === '*'){
-                    return false; // authorize request
-                } else {
-                    // if roles is different than specified role the request is refused.
-                    if ($decoded->role[0] !== $roles[0]){
-                        dd($request);
-                        return true;
+            //if($this->check_token($token)){
+               
+                try {
+                    $decoded = JWT::decode($token, "9d12902d04e3cf1a094644a04915f6ef", array('HS256'));
+                
+                    $request->attributes->set('infotoken', (array)$decoded);
+                    if(!$this->check_token($token,$request)){
+                        
+                    };
+                    if ($roles[0] === '*'){
+                        return false; // authorize request
+                    } else {
+                        // if roles is different than specified role the request is refused.
+                        if ($decoded->role[0] !== $roles[0]){
+                            dd($request);
+                            return true;
+                        }
                     }
+                } catch (\Exception $e) {
+                    return true;
                 }
-            } catch (\Exception $e) {
-                return true;
-            }
+           // }
             return false;
+    }
+    private function check_token(string $token,$request)
+    {
+        $user = $this->userRepository->find($request->attributes->get('infotoken')['id']);
+        //return empty($find_token) == false;
+       if($user){
+        
+           if($user->getToken() === $token){
+            return false;
+           }
+           
+       }
+       return true;
+        
     }
   
 }
