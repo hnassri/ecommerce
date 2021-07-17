@@ -1,14 +1,15 @@
 import '../../App.css'
 import React, { Component ,useState} from "react"
-import Header from '../../components/CommonComponents/Header/Header'
+import SliderHome from '../../components/SliderHome'
 
 
 
 const Home = props => {
     return (
-        <>
-            <Header />
-        </>
+        <div class="main-wrapper">
+            
+         <SliderHome/>
+        </div>
     )
 }
 
