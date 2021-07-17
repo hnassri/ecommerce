@@ -5,7 +5,7 @@ const ImageSlide = (props)=>{
 
     return(
         <div className="swiper-slide animation-style-02">
-        <div className="slide-inner style-2" data-bg-image={props.bg-image}>
+        <div className="slide-inner style-2" data-bg-image={props.bgImage}>
           <div className="slide-content text-black">
             <h2 className="title">{props.title}</h2>
             <p className="short-desc">{props.shortDesc}</p>
@@ -14,7 +14,7 @@ const ImageSlide = (props)=>{
             </div>
           </div>
           <div className="slide-img">
-            <img src={props.image-slide} alt="Slide Image" />
+            <img src={props.imageSlide} alt="Slide Image" />
             <div className="slide-count">
               <span className="data-count" data-count={props.datacount}>
                 <span className="forward-slash">/</span>
