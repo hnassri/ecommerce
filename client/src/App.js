@@ -1,6 +1,6 @@
 import React from 'react';
 import Auth from './pages/Auth';
-import Home from './pages/Home';
+import Home from './pages/Home/Home';
 
 const App = ()=>{
   return (
