@@ -93,7 +93,7 @@ class ArticleController extends AbstractController
         $article->setUuid(trim($request->get("uuid")));
         $entityManager->persist($article);
         if($entityManager->flush() !== false){
-            //$this->setImages($article, $request, $entityManager);
+            $this->setImages($article, $request, $entityManager);
             $this->setFeatures($article, $request, $entityManager);
             $this->setCategories($article, $request, $entityManager);
             return $this->json([
@@ -133,7 +133,8 @@ class ArticleController extends AbstractController
         $article->setUuid(trim($request->get("uuid")));
         $entityManager->persist($article);
         if($entityManager->flush() !== false){
-            //$this->setImages($article, $request, $entityManager);
+            $this->removeImages($article, $entityManager);
+            $this->setImages($article, $request, $entityManager);
             $this->removeFeatures($article, $entityManager);
             $this->setFeatures($article, $request, $entityManager);
             $this->removeCategories($article, $entityManager);
@@ -163,6 +164,7 @@ class ArticleController extends AbstractController
                 "message" => "This product doesn't exist!"
             ], 500);
         }
+        $this->removeImages($article, $entityManager);
         $this->removeFeatures($article, $entityManager);
         $this->removeCategories($article, $entityManager);
         $entityManager->remove($article);
@@ -216,14 +218,17 @@ class ArticleController extends AbstractController
 
     protected function setImages(Article $article, Request $request, $entityManager)
     {
-        $img_file = $request->get("image");
-        $filename = md5(uniqid()) . "." . $img_file->guessExtention();
-        $img_file->move("./src/public/uploads/" . $filename);
-        $image = new Image();
-        $image->setUuid($article->getUuid());
-        $image->setArticleId($article->getId());
-        $image->setUrl("./src/public/uploads/" . $filename);
-        $entityManager->persist($image);
+        $img_files = $request->files->get("images");
+        foreach($img_files as $img_file){
+            $filename = md5(uniqid()) . "." . $img_file->guessExtension();
+            $img_file->move( $this->getParameter('images_directory'), $filename);
+            $image = new Image();
+            $image->setUuid($article->getUuid());
+            $image->setArticleId($article);
+            $image->setUrl("/uploads/" . $filename);
+            $entityManager->persist($image);
+        }
+        $entityManager->flush();
     }
 
     protected function setFeatures(Article $article, Request $request, $entityManager)
@@ -278,6 +283,19 @@ class ArticleController extends AbstractController
                 $global_category->setCategoryId($category);
                 $entityManager->persist($global_category);
             }
+        }
+        $entityManager->flush();
+    }
+
+    protected function removeImages(Article $article, $entityManager)
+    {
+        $images = $this->getDoctrine()->getRepository(Image::class)->findBy(["article_id" => $article->getId()]);
+        foreach($images as $item){
+            $img_name = substr($item->getUrl(),8);
+            if(file_exists($this->getParameter('images_directory') . $img_name)){
+                unlink($this->getParameter('images_directory') . $img_name);
+            }
+            $entityManager->remove($item);
         }
         $entityManager->flush();
     }
