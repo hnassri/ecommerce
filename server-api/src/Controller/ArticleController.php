@@ -29,6 +29,10 @@ class ArticleController extends AbstractController
         $items = [];
         foreach($articles as $article){
             $stock = ($article->getQuantity() > 0) ? "stock" : "empty";
+            $image = $this->getDoctrine()->getRepository(Image::class)->findOneBy(["article_id" => $article->getId()]);
+            if(empty($image) === false){
+                $image = $image->getUrl();
+            }
             $items[] = [
                 "id" => $article->getId(),
                 "name" => $article->getName(),
@@ -36,6 +40,7 @@ class ArticleController extends AbstractController
                 "description" =>  $article->getDescription(),
                 "stock" => $stock,
                 "uuid" => $article->getUuid(),
+                "image" => $image
             ];
         }
         
@@ -58,14 +63,16 @@ class ArticleController extends AbstractController
         $item = [];
         $stock = ($article->getQuantity() > 0) ? "stock" : "empty";
         $features = $this->getFeatures($article);
+        $images = $this->getImages($article);
         $item[] = [
             "id" => $article->getId(),
             "name" => $article->getName(),
             "price" => $article->getPrice(),
-            "description" =>  $article->getDescription(),
+            "description" => $article->getDescription(),
             "stock" => $stock,
             "uuid" => $article->getUuid(),
-            "features" => $features
+            "features" => $features,
+            "images" => $images
         ];
         
         return $this->json([
@@ -203,6 +210,22 @@ class ArticleController extends AbstractController
             }
         }
         return true;
+    }
+
+    protected function getImages(Article $article)
+    {
+        $images = $this->getDoctrine()->getRepository(Image::class)->findBy(["uuid" => $article->getUuid()]);
+        $images_tab = [];
+        foreach($images as $image){
+            if(file_exists($this->getParameter('images_directory') . substr($image->getUrl(),8))){
+                $images_tab[] = [
+                    "id" => $image->getId(),
+                    "url" => $image->getUrl()
+                ];
+            }
+            
+        }
+        return $images_tab;
     }
 
     protected function getFeatures(Article $article)
