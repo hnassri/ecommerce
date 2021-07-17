@@ -181,9 +181,7 @@ class ArticleController extends AbstractController
             "message" => "Product deleted!"
         ], 200);
     }
-
-    #[Route('/check_quantity/{id}', name: 'article_check_quantity', methods: ["POST"])]
-    public function checkQuantity(Request $request, int $id): Response
+    protected function checkQuantity(Request $request, int $id): Response
     {
         $entityManager = $this->getDoctrine()->getManager();
         $article = $this->getDoctrine()->getRepository(Article::class)->find($id);
