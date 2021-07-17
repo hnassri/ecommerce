@@ -1,5 +1,5 @@
 import React from 'react';
-import Navbar from './components/CommonComponents/Navbar/Navbar';
+import Header from './components/CommonComponents/Header/Header';
 import './App.css';
 import {HashRouter, Route, Switch} from 'react-router-dom'
 import Login from './pages/Login/index'
@@ -10,7 +10,7 @@ import Carousel from './components/CommonComponents/BannerSlider/BannerSlider';
 const App = ()=>{
   return (
     <>
-      <Navbar />
+      <Header />
       <Carousel />
       <CardItems />
       <HashRouter>
