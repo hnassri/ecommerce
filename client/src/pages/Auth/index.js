@@ -32,9 +32,7 @@ const Auth = ()=>{
   <div className="login-register-area section-space-y-axis-100">
     <div className="container">
       <div className="row">
-          
-          <SetingUpFrom/>
-        <Footer/>
+        <LoginFrom/>
       </div>
     </div>
   </div>
