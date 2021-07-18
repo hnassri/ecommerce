@@ -6,17 +6,22 @@ import ButtonPagination from './ButtonPagination';
 
 const Pagination = (props)=>{
     
-  /*   const Lien = ()=>{
+   
+     const value = []
         for (let index = 1; index < props.nbrPage; index++) {
             
-            <ButtonPagination
+            value [index] = <ButtonPagination
             pageNumber={props.index}
-                   {props.page}
+                  
 
             />
             
-        } */
-    
+        } console.log(value);
+
+
+   const but = value.map(item=>{
+        return
+      })
 
     return(
            
