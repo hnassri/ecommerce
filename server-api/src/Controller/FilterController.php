@@ -73,9 +73,8 @@ class FilterController extends AbstractController
         ->where('a.name LIKE :name')
         ->setParameter('name', "%$name%");
 
-        $query = $queryBuilder->getQuery();
-        dd($query->getResult());
-        if(empty($query)) {
+        $articles = $queryBuilder->getQuery()->getResult();
+        if(empty($articles)) {
             return $this->json([
                 "success" => false,
                 "message" => "No Products founded!"
