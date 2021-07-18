@@ -28,7 +28,7 @@ class ArticleController extends AbstractController
         }
         $items = [];
         foreach($articles as $article){
-            $stock = ($article->getQuantity() > 0) ? "stock" : "empty";
+            $stock = ($article->getQuantity() > 0 && $article->getStock()) ? "stock" : "empty";
             $image = $this->getDoctrine()->getRepository(Image::class)->findOneBy(["article_id" => $article->getId()]);
             if(empty($image) === false){
                 $image = $image->getUrl();
@@ -61,7 +61,7 @@ class ArticleController extends AbstractController
             ], 500);
         }
         $item = [];
-        $stock = ($article->getQuantity() > 0) ? "stock" : "empty";
+        $stock = ($article->getQuantity() > 0 && $article->getStock()) ? "stock" : "empty";
         $features = $this->getFeatures($article);
         $images = $this->getImages($article);
         $item[] = [
@@ -84,7 +84,7 @@ class ArticleController extends AbstractController
     #[Route('/article_new', name: 'article_create', methods: ["POST"])]
     public function create(Request $request): Response
     {
-        $dataToVerify = ["name", "price", "description", "quantity", "uuid", "features", "images", "categories"];
+        $dataToVerify = ["name", "price", "description", "quantity", "uuid", "features", "images", "categories", "stock"];
         if($this->checkData($request, $dataToVerify) === false){
             return $this->json([
                 "success" => false,
@@ -98,6 +98,11 @@ class ArticleController extends AbstractController
         $article->setDescription(trim($request->get("description")));
         $article->setQuantity($request->get("quantity"));
         $article->setUuid(trim($request->get("uuid")));
+        if($request->get("stock") == "true"){
+            $article->setStock(true);
+        }else {
+            $article->setStock(false);
+        }
         $entityManager->persist($article);
         if($entityManager->flush() !== false){
             $this->setImages($article, $request, $entityManager);
@@ -124,7 +129,8 @@ class ArticleController extends AbstractController
                 "message" => "This Product doesn't exist"
             ], 500);
         }
-        $dataToVerify = ["name", "price", "description", "quantity", "uuid", "features", "images", "categories"];
+        $dataToVerify = ["name", "price", "description", "quantity", "uuid", "features", "images", "categories", "stock"];
+        //dd($request->get("stock"));
         if($this->checkData($request, $dataToVerify) === false){
             return $this->json([
                 "success" => false,
@@ -138,6 +144,12 @@ class ArticleController extends AbstractController
         $article->setDescription(trim($request->get("description")));
         $article->setQuantity($request->get("quantity"));
         $article->setUuid(trim($request->get("uuid")));
+        if($request->get("stock") == "true"){
+            $article->setStock(true);
+        }else {
+            $article->setStock(false);
+        }
+        
         $entityManager->persist($article);
         if($entityManager->flush() !== false){
             $this->removeImages($article, $entityManager);
@@ -179,6 +191,26 @@ class ArticleController extends AbstractController
         return $this->json([
             "success" => true,
             "message" => "Product deleted!"
+        ], 200);
+    }
+
+    #[Route('/article/outstock/{id}', name: 'article_outstock', methods: ["GET", "HEAD"])]
+    public function outStockArticle(int $id)
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $article = $this->getDoctrine()->getRepository(Article::class)->find($id);
+        if(!$article){
+            return $this->json([
+                "success" => false,
+                "message" => "This product doesn't exist!"
+            ], 500);
+        }
+        $article->setStock(false);
+        $entityManager->persist($article);
+        $entityManager->flush();
+        return $this->json([
+            "success" => true,
+            "message" => "Product has been out stocked!"
         ], 200);
     }
     protected function checkQuantity(Request $request, int $id): Response
