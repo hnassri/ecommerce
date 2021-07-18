@@ -59,6 +59,11 @@ class Article
      */
     private $globalFeatures;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $stock;
+
     public function __construct()
     {
         $this->images = new ArrayCollection();
@@ -217,6 +222,18 @@ class Article
                 $globalFeature->setArticleId(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getStock(): ?bool
+    {
+        return $this->stock;
+    }
+
+    public function setStock(bool $stock): self
+    {
+        $this->stock = $stock;
 
         return $this;
     }
