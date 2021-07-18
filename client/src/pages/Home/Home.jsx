@@ -2,7 +2,9 @@ import '../../App.css'
 import React, { Component, useState } from "react"
 import SliderHome from '../../components/Home/SliderHome/SlideHome'
 import Header from '../../components/CommonComponents/Header/Header'
-import CartArticle from '../../components/cartArticle/CartArticle'
+import Collection from '../../components/Home/Collection/Collection'
+import Video from '../../components/Home/Video/Video'
+import CartArticle from '../../components/CartArticle/CartArticle'
 
 
 
@@ -11,6 +13,7 @@ const Home = props => {
         <div class="main-wrapper">
             <Header />
             <SliderHome />
+            <Collection/>
             <div className="product-area section-space-top-100 section-space-bottom-90">
                 <div className="container">
                     <div className="section-title-wrap">
@@ -39,7 +42,7 @@ const Home = props => {
                                 <div className="product-item-wrap row">
                                     {/* premier ligne */}
 
-                                    <CartArticle 
+                                    <CartArticle
                                     image="assets/images/product/medium-size/1-7-270x300.jpg"
                                     name="nom du produit"
                                     prix="30"
@@ -85,7 +88,9 @@ const Home = props => {
                     </div>
                 </div>
             </div>
+            <Video/>
         </div>
+       
     )
 }
 
