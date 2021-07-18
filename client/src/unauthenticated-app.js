@@ -6,6 +6,8 @@ const UnauthenticatedApp = () => {
         <Router>
             <Switch>
                 <Route exact path='/' component={Auth} />
+                <Route exact path='/login' component={Auth} />
+                <Route exact path='/signup' component={Auth} />
             </Switch>
         </Router>
     );
