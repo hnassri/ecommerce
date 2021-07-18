@@ -8,8 +8,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Article;
 use App\Entity\Feature;
+use App\Entity\Category;
 use App\Entity\Image;
 use App\Entity\GlobalFeature;
+use App\Entity\GlobalCategory;
 use Doctrine\ORM\EntityManagerInterface;
 
 class ArticleController extends AbstractController
@@ -19,21 +21,33 @@ class ArticleController extends AbstractController
     {
         $articles = $this->getDoctrine()->getRepository(Article::class)->findAll();
         if(empty($articles)) {
-            return $this->json(["message" => "No Products founded!"]);
+            return $this->json([
+                "success" => false,
+                "message" => "No Products founded!"
+            ], 500);
         }
         $items = [];
         foreach($articles as $article){
             $stock = ($article->getQuantity() > 0) ? "stock" : "empty";
+            $image = $this->getDoctrine()->getRepository(Image::class)->findOneBy(["article_id" => $article->getId()]);
+            if(empty($image) === false){
+                $image = $image->getUrl();
+            }
             $items[] = [
+                "id" => $article->getId(),
                 "name" => $article->getName(),
                 "price" => $article->getPrice(),
                 "description" =>  $article->getDescription(),
                 "stock" => $stock,
                 "uuid" => $article->getUuid(),
+                "image" => $image
             ];
         }
         
-        return $this->json($items);
+        return $this->json([
+            "success" => true,
+            "items" => $items
+        ], 200);
     }
 
     #[Route('/article/{id}', name: 'article_show', methods: ["GET", "HEAD"])]
@@ -41,64 +55,109 @@ class ArticleController extends AbstractController
     {
         $article = $this->getDoctrine()->getRepository(Article::class)->find($id);
         if(empty($article)) {
-            return $this->json(["message" => "This product doesn't exist!"]);
+            return $this->json([
+                "success" => false,
+                "message" => "This product doesn't exist!"
+            ], 500);
         }
         $item = [];
         $stock = ($article->getQuantity() > 0) ? "stock" : "empty";
         $features = $this->getFeatures($article);
+        $images = $this->getImages($article);
         $item[] = [
+            "id" => $article->getId(),
             "name" => $article->getName(),
             "price" => $article->getPrice(),
-            "description" =>  $article->getDescription(),
+            "description" => $article->getDescription(),
             "stock" => $stock,
             "uuid" => $article->getUuid(),
-            "features" => $features
+            "features" => $features,
+            "images" => $images
         ];
         
-        return $this->json($item);
+        return $this->json([
+            "success" => true,
+            "item" => $item
+        ], 200);
     }
 
     #[Route('/article_new', name: 'article_create', methods: ["POST"])]
     public function create(Request $request): Response
     {
+        $dataToVerify = ["name", "price", "description", "quantity", "uuid", "features", "images", "categories"];
+        if($this->checkData($request, $dataToVerify) === false){
+            return $this->json([
+                "success" => false,
+                "message" => "Please, fill out the necessary fields!"
+            ], 500);
+        }
         $entityManager = $this->getDoctrine()->getManager();
         $article = new Article();
-        $article->setName($request->get("name"));
+        $article->setName(trim($request->get("name")));
         $article->setPrice($request->get("price"));
-        $article->setDescription($request->get("description"));
+        $article->setDescription(trim($request->get("description")));
         $article->setQuantity($request->get("quantity"));
-        $article->setUuid($request->get("uuid"));
+        $article->setUuid(trim($request->get("uuid")));
         $entityManager->persist($article);
         if($entityManager->flush() !== false){
-            //$this->setImages($article, $request, $entityManager);
+            $this->setImages($article, $request, $entityManager);
             $this->setFeatures($article, $request, $entityManager);
-            return $this->json(["message" => "Product created!"]);
+            $this->setCategories($article, $request, $entityManager);
+            return $this->json([
+                "success" => true,
+                "message" => "Product created!"
+            ], 200);
         }
-        
-        
-        return $this->json(["message" => "Product not created!"]);
+        return $this->json([
+            "success" => false,
+            "message" => "Product not created!"
+        ], 500);
     }
     
-    #[Route('/article/edit/{id}', name: 'article_edit', methods: ["PUT"])]
+    #[Route('/article/edit/{id}', name: 'article_edit', methods: ["POST", "PUT"])]
     public function update(Request $request, int $id): Response
     {
-        $entityManager = $this->getDoctrine()->getManager();
         $article = $this->getDoctrine()->getRepository(Article::class)->find($id);
-        $article->setName($request->get("name"));
+        if(empty($article)){
+            return $this->json([
+                "success" => false,
+                "message" => "This Product doesn't exist"
+            ], 500);
+        }
+        $dataToVerify = ["name", "price", "description", "quantity", "uuid", "features", "images", "categories"];
+        if($this->checkData($request, $dataToVerify) === false){
+            return $this->json([
+                "success" => false,
+                "message" => "Please, fill out the necessary fields!"
+            ], 500);
+        }
+        $entityManager = $this->getDoctrine()->getManager();
+        
+        $article->setName(trim($request->get("name")));
         $article->setPrice($request->get("price"));
-        $article->setDescription($request->get("description"));
+        $article->setDescription(trim($request->get("description")));
         $article->setQuantity($request->get("quantity"));
-        $article->setUuid($request->get("uuid"));
+        $article->setUuid(trim($request->get("uuid")));
         $entityManager->persist($article);
         if($entityManager->flush() !== false){
-            //$this->setImages($article, $request, $entityManager);
+            $this->removeImages($article, $entityManager);
+            $this->setImages($article, $request, $entityManager);
             $this->removeFeatures($article, $entityManager);
             $this->setFeatures($article, $request, $entityManager);
-            return $this->json(["message" => "Product updated!"]);
+            $this->removeCategories($article, $entityManager);
+            $this->setCategories($article, $request, $entityManager);
+
+            return $this->json([
+                "success" => true,
+                "message" => "Product updated!"
+            ], 200);
         }
         
         
-        return $this->json(["message" => "Product not updated!"]);
+        return $this->json([
+            "success" => false,
+            "message" => "Product not updated!"
+        ], 500);
     }
     
     #[Route('/article/{id}', name: 'article_delete', methods: ["DELETE"])]
@@ -107,18 +166,22 @@ class ArticleController extends AbstractController
         $entityManager = $this->getDoctrine()->getManager();
         $article = $this->getDoctrine()->getRepository(Article::class)->find($id);
         if(!$article){
-            return $this->json(["message" => "This product doesn't exist!"]);
+            return $this->json([
+                "success" => false,
+                "message" => "This product doesn't exist!"
+            ], 500);
         }
+        $this->removeImages($article, $entityManager);
         $this->removeFeatures($article, $entityManager);
+        $this->removeCategories($article, $entityManager);
         $entityManager->remove($article);
         $entityManager->flush();
-        
-        
-        return $this->json(["message" => "Product deleted!"]);
+        return $this->json([
+            "success" => true,
+            "message" => "Product deleted!"
+        ], 200);
     }
-
-    #[Route('/check_quantity/{id}', name: 'article_check_quantity', methods: ["POST"])]
-    public function checkQuantity(Request $request, int $id): Response
+    protected function checkQuantity(Request $request, int $id): Response
     {
         $entityManager = $this->getDoctrine()->getManager();
         $article = $this->getDoctrine()->getRepository(Article::class)->find($id);
@@ -126,7 +189,7 @@ class ArticleController extends AbstractController
             return $this->json(["message" => "This product doesn't exist!"]);
         }
         $nb_to_check = 1;
-        if($request->get("quantity") !== null){
+        if($request->get("quantity") !== null && $request->get("quantity") > 0){
             $nb_to_check = $request->get("quantity");
         }
         if($article->getQuantity() - $nb_to_check >= 0){
@@ -136,6 +199,31 @@ class ArticleController extends AbstractController
             return $this->json(["message" => "Command passed successfully!"]);
         }
         return $this->json(["message" => "Sorry but we don't have enough items to assurs your command"]);
+    }
+
+    protected function checkData(Request $request, array $data){
+        foreach($data as $value){
+            if($request->get($value) === null && $request->files->get($value) === null){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    protected function getImages(Article $article)
+    {
+        $images = $this->getDoctrine()->getRepository(Image::class)->findBy(["uuid" => $article->getUuid()]);
+        $images_tab = [];
+        foreach($images as $image){
+            if(file_exists($this->getParameter('images_directory') . substr($image->getUrl(),8))){
+                $images_tab[] = [
+                    "id" => $image->getId(),
+                    "url" => $image->getUrl()
+                ];
+            }
+            
+        }
+        return $images_tab;
     }
 
     protected function getFeatures(Article $article)
@@ -151,41 +239,84 @@ class ArticleController extends AbstractController
 
     protected function setImages(Article $article, Request $request, $entityManager)
     {
-        $img_file = $request->get("image");
-        $filename = md5(uniqid()) . "." . $img_file->guessExtention();
-        $img_file->move("./src/public/uploads/" . $filename);
-        $image = new Image();
-        $image->setUuid($article->getUuid());
-        $image->setArticleId($article->getId());
-        $image->setUrl("./src/public/uploads/" . $filename);
-        $entityManager->persist($image);
+        $img_files = $request->files->get("images");
+        foreach($img_files as $img_file){
+            $filename = md5(uniqid()) . "." . $img_file->guessExtension();
+            $img_file->move( $this->getParameter('images_directory'), $filename);
+            $image = new Image();
+            $image->setUuid($article->getUuid());
+            $image->setArticleId($article);
+            $image->setUrl("/uploads/" . $filename);
+            $entityManager->persist($image);
+        }
+        $entityManager->flush();
     }
 
     protected function setFeatures(Article $article, Request $request, $entityManager)
     {
         $features = $request->get("features");
-        $features_array = [];
         foreach($features as $feature_name){
-            $feature = $this->getDoctrine()->getRepository(Feature::class)->findOneByname(["name" => $feature_name]);
+            $feature_name = trim($feature_name);
+            $feature = $this->getDoctrine()->getRepository(Feature::class)->findOneBy(["name" => $feature_name]);
+            $global_feature_exist = false;
             if(empty($feature)){
                 $feature = new Feature();
                 $feature->setName($feature_name);
                 $entityManager->persist($feature);
                 $entityManager->flush();
-                $features_array[] = $feature;
-            }else {
+            }else{
+                $global_feature = $this->getDoctrine()->getRepository(GlobalFeature::class)->findOneBy(["article_id" => $article->getId(), "feature_id" => $feature->getId()]);
+                if(empty($global_feature) === false){
+                    $global_feature_exist = true;
+                }
+            }
+            if($global_feature_exist === false){
                 $global_feature = new GlobalFeature();
                 $global_feature->setArticleId($article);
                 $global_feature->setFeatureId($feature);
                 $entityManager->persist($global_feature);
             }
         }
+        $entityManager->flush();
+    }
 
-        foreach($features_array as $feature){
-            $global_feature = new GlobalFeature();
-            $global_feature->setArticleId($article);
-            $global_feature->setFeatureId($feature);
-            $entityManager->persist($global_feature);
+    protected function setCategories(Article $article, Request $request, $entityManager)
+    {
+        $categories = $request->get("categories");
+        foreach($categories as $category_name){
+            $category_name = trim($category_name);
+            $category = $this->getDoctrine()->getRepository(Category::class)->findOneBy(["name" => $category_name]);
+            $global_category_exist = false;
+            if(empty($category)){
+                $category = new Category();
+                $category->setName($category_name);
+                $entityManager->persist($category);
+                $entityManager->flush();
+            }else{
+                $global_category = $this->getDoctrine()->getRepository(GlobalCategory::class)->findOneBy(["article_id" => $article->getId(), "category_id" => $category->getId()]);
+                if(empty($global_category) === false){
+                    $global_category_exist = true;
+                }
+            }
+            if($global_category_exist === false){
+                $global_category = new GlobalCategory();
+                $global_category->setArticleId($article);
+                $global_category->setCategoryId($category);
+                $entityManager->persist($global_category);
+            }
+        }
+        $entityManager->flush();
+    }
+
+    protected function removeImages(Article $article, $entityManager)
+    {
+        $images = $this->getDoctrine()->getRepository(Image::class)->findBy(["article_id" => $article->getId()]);
+        foreach($images as $item){
+            $img_name = substr($item->getUrl(),8);
+            if(file_exists($this->getParameter('images_directory') . $img_name)){
+                unlink($this->getParameter('images_directory') . $img_name);
+            }
+            $entityManager->remove($item);
         }
         $entityManager->flush();
     }
@@ -194,6 +325,15 @@ class ArticleController extends AbstractController
     {
         $global_features = $this->getDoctrine()->getRepository(GlobalFeature::class)->findBy(["article_id" => $article->getId()]);
         foreach($global_features as $item){
+            $entityManager->remove($item);
+        }
+        $entityManager->flush();
+    }
+
+    protected function removeCategories(Article $article, $entityManager)
+    {
+        $global_categories = $this->getDoctrine()->getRepository(GlobalCategory::class)->findBy(["article_id" => $article->getId()]);
+        foreach($global_categories as $item){
             $entityManager->remove($item);
         }
         $entityManager->flush();

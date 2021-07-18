@@ -1,19 +1,11 @@
-import React from 'react';
-import Shop from './pages/Shop/Shop';
-import Auth from './pages/Auth';
-import Home from './pages/Home/Home';
-import Product from './pages/Product';
+import React, {useState} from 'react';
+import { useAuth } from './context/auth';
+import AuthenticatedApp from "./authenticated-app"
+import UnauthenticatedApp from "./unauthenticated-app"
 
 const App = ()=>{
-  return (
-    <>
-
-       <Product/>
-       
-    
-    </>
-  );
-
+  const {user} = useAuth();
+  return user ? <AuthenticatedApp /> : <UnauthenticatedApp />;
 }
 
 export default App;

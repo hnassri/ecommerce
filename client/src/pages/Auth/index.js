@@ -7,6 +7,9 @@ import Header from '../../components/CommonComponents/Header/Header';
 
 
 const Auth = ()=>{
+  const url = window.location.pathname;
+  const login = url === "/" || url === "/login" ? true : false;
+  const signup = url === "/signup" ? true : false;
     return (
 
         <div class="main-wrapper">
@@ -17,12 +20,12 @@ const Auth = ()=>{
       <div className="row h-100">
         <div className="col-lg-12">
           <div className="breadcrumb-item">
-            <h2 className="breadcrumb-heading">Login &amp; Register Page</h2>
+            <h2 className="breadcrumb-heading">{login ? "Login" : signup ? "Register" : null} Page</h2>
             <ul>
               <li>
                 <a href="index.html">Home</a>
               </li>
-              <li>Login | Register</li>
+              <li>{login ? "Login" : signup ? "Register" : null} </li>
             </ul>
           </div>
         </div>
@@ -32,9 +35,13 @@ const Auth = ()=>{
   <div className="login-register-area section-space-y-axis-100">
     <div className="container">
       <div className="row">
-          
-          <SetingUpFrom/>
-        <Footer/>
+      {login ?
+        <LoginFrom/> : 
+        signup ? 
+          <SetingUpFrom/> 
+          : null
+      } 
+        
       </div>
     </div>
   </div>

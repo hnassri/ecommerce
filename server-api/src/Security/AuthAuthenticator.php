@@ -28,8 +28,15 @@ class AuthAuthenticator extends AbstractAuthenticator
 
     public function supports(Request $request): ?bool
     {
-        if ($request->attributes->has('_route')) {
-            switch ($request->attributes->get('_route')) {
+        if ($request->attributes->has('_route')){
+            switch ($request->attributes->get('_route')){
+                // route proteger
+                case 'article_create':
+                case 'article_edit':
+                case 'article_delete':
+                case 'category_create':
+                case 'category_edit':
+                case 'category_delete':                    
                 case 'user_all':
                 case 'user_info_admin':
                 case 'user_update_admin':
@@ -37,6 +44,8 @@ class AuthAuthenticator extends AbstractAuthenticator
                     return $this->check_authorization($request, ['ROLE_ADMIN']);
                 case 'user_update':
                 case 'user_info':
+                case 'article':
+                case 'article_show':
                     /*  */
                     return $this->check_authorization($request, ['*']);
                 default:
