@@ -9,6 +9,9 @@ import CartArticle from '../../components/CartArticle/CartArticle'
 
 
 const Home = props => {
+
+
+    
     return (
         <div class="main-wrapper">
             <Header />

@@ -33,7 +33,7 @@ const Login = props => {
           })
             .then(function ( response ) {
               if(response.data.success === true && response.data.token != null ){
-                  localStorage.setItem("auth", response.data.token);
+                  localStorage.setItem('user', response.data.token);
                   setConfirm(true);
               };
            
