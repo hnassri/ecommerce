@@ -103,4 +103,54 @@ class FilterController extends AbstractController
             "items" => $items
         ], 200);
     }
+
+    #[Route('/filter/category/{name}', name: 'filter_by_category', methods: ["GET", "HEAD"])]
+    public function filter_by_category(string $name): Response
+    {
+        $name = trim($name);
+        $category = $this->getDoctrine()->getRepository(Category::class)->findOneByName($name);
+        if(empty($category)){
+            return $this->json([
+                "success" => false,
+                "message" => "This category doesn't exist!"
+            ], 403);
+        }
+        $entityManager = $this->getDoctrine()->getManager();
+        $queryBuilder = $entityManager->createQueryBuilder();
+
+        $queryBuilder->select('a')
+        ->from(Article::class, 'a')
+        ->innerJoin('a.globalCategories', 'c',  'WITH', 'c.category_id = :category_id')
+        ->setParameter('category_id', $category->getId());
+
+        $articles = $queryBuilder->getQuery()->getResult();
+        if(empty($articles)) {
+            return $this->json([
+                "success" => false,
+                "message" => "No Products founded!"
+            ], 500);
+        }
+        $items = [];
+        foreach($articles as $article){
+            $stock = ($article->getQuantity() > 0 && $article->getStock()) ? "stock" : "empty";
+            $image = $this->getDoctrine()->getRepository(Image::class)->findOneBy(["article_id" => $article->getId()]);
+            if(empty($image) === false){
+                $image = $image->getUrl();
+            }
+            $items[] = [
+                "id" => $article->getId(),
+                "name" => $article->getName(),
+                "price" => $article->getPrice(),
+                "description" =>  $article->getDescription(),
+                "stock" => $stock,
+                "uuid" => $article->getUuid(),
+                "image" => $image
+            ];
+        }
+        
+        return $this->json([
+            "success" => true,
+            "items" => $items
+        ], 200);
+    }
 }
