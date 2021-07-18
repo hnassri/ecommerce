@@ -10,7 +10,7 @@ const CartArticle = (props) => {
     <div className="col-xl-3 col-md-4 col-sm-6">
       <div className="product-item">
         <div className="product-img">
-          <a href="shop.html">
+          <a href="/product/">
             <img className="primary-img" src={props.image} alt="Product Images" />
           </a>
           <ProductAction />
