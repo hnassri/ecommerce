@@ -1,16 +1,18 @@
 import React from 'react';
-import Auth from './pages/Auth';
-import Home from './pages/Home/Home';
+import { Suspense } from 'react';
+
+const AuthenticatedApp = React.lazy(() => import('./authenticated-app'))
+const UnauthenticatedApp = React.lazy(() => import('./unauthenticated-app'))
+
+
 
 const App = ()=>{
+  const user = true;
   return (
-    <>
-
-       <Home/>
-    
-    </>
+    <Suspense fallback={<div></div>}>
+      {user ? <AuthenticatedApp /> : <UnauthenticatedApp />}
+    </Suspense>
   );
-
 }
 
 export default App;
