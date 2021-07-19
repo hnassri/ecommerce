@@ -8,10 +8,6 @@ const AccountForm = props =>{
           <form action="#" className="myaccount-form">
             <div className="myaccount-form-inner">
               <div className="single-input">
-                <label>Email*</label>
-                <input type="email" />
-              </div>
-              <div className="single-input">
                 <label>Current Password(leave blank to leave
                   unchanged)</label>
                 <input type="password" />
