@@ -1,12 +1,12 @@
 import React, { Component ,useState} from "react"
-import ShopCss from './Shop.css'
+import  './Shop.css'
 
 const Shop = props =>{
 
     return(
         <li className="megamenu-holder">
-    <a href="shop.html">Shop</a>
-    <ul className="drop-menu megamenu">
+    <a href="/shop">Shop</a>
+    {/* <ul className="drop-menu megamenu">
         <li>
         <span className="title">Shop Layout</span>
         <ul>
@@ -76,7 +76,7 @@ const Shop = props =>{
          </li>
        </ul>
      </li> 
-    </ul>
+    </ul> */}
 </li>
 
     )

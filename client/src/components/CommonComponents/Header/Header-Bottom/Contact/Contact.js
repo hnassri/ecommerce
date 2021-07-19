@@ -5,7 +5,7 @@ const Contact= props =>{
 
     return(
         <li>
-        <a href="contact.html">Contact Us</a>
+        <a href="#">Contact Us</a>
       </li>
 
     )

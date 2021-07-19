@@ -9,7 +9,7 @@ const Service= (props)=>{
         <ul className="service-item-wrap">
         <li className="service-item">
           <div className="service-img">
-            <img src="assets/images/shipping/icon/car.png" alt="Shipping Icon" />
+            <img src="/assets/images/shipping/icon/car.png" alt="Shipping Icon" />
           </div>
           <div className="service-content">
             <span className="title">Free <br /> Shipping</span>
@@ -17,7 +17,7 @@ const Service= (props)=>{
         </li>
         <li className="service-item">
           <div className="service-img">
-            <img src="assets/images/shipping/icon/card.png" alt="Shipping Icon" />
+            <img src="/assets/images/shipping/icon/card.png" alt="Shipping Icon" />
           </div>
           <div className="service-content">
             <span className="title">Safe <br /> Payment</span>
@@ -25,7 +25,7 @@ const Service= (props)=>{
         </li>
         <li className="service-item">
           <div className="service-img">
-            <img src="assets/images/shipping/icon/service.png" alt="Shipping Icon" />
+            <img src="/assets/images/shipping/icon/service.png" alt="Shipping Icon" />
           </div>
           <div className="service-content">
             <span className="title">Safe <br /> Payment</span>

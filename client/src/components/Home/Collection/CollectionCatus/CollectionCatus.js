@@ -10,12 +10,12 @@ const CollectionCatus = props =>{
        <SecondCollection 
        collection="moi"
        titre="title"
-       image="assets/images/banner/2-3-570x235.jpg"
+       image="/assets/images/banner/2-3-570x235.jpg"
        />
        <SecondCollection 
        collection="essaye"
        titre="titre"
-       image="assets/images/banner/2-3-570x235.jpg"
+       image="/assets/images/banner/2-3-570x235.jpg"
        />
        </div>
   

@@ -7,7 +7,7 @@ import EnsembleTag from './EnsembleTag';
 import Service from './Service';
 
 const Detaill = (props) => {
-
+  const  image ='http://206.81.25.252:8000'+props.image[0].url
   return (
 
     <div className="single-product-area section-space-top-100">
@@ -15,7 +15,7 @@ const Detaill = (props) => {
         <div className="row">
           <div className="col-lg-6">
             <ImageProduct
-              source=''
+              source={image}
             />
           </div>
           <div className="col-lg-6 pt-5 pt-lg-0">

@@ -12,7 +12,7 @@ const Collection = props =>{
               <NewCollection
               collection="new collection"
               technology="new technologie"
-              image="assets/images/banner/2-1-570x500.jpg"/>
+              image="/assets/images/banner/2-1-570x500.jpg"/>
             </div>
             <div className="col-md-6">
               <div className="banner-wrap row g-y-30">
