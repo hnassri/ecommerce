@@ -7,7 +7,6 @@ const SetingUpFrom = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [password_confirm, setPasswordConfirm] = useState("");
-    console.log(user)
     const handleSubmit = (e) => {
       e.preventDefault();
       if(password === password_confirm){
