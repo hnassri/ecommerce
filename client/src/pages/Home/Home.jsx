@@ -43,42 +43,42 @@ const Home = props => {
                                     {/* premier ligne */}
 
                                     <CartArticle
-                                    image="assets/images/product/medium-size/1-7-270x300.jpg"
+                                    image="/assets/images/product/medium-size/1-7-270x300.jpg"
                                     name="nom du produit"
                                     prix="30"
                                     />
                                      <CartArticle 
-                                    image="assets/images/product/medium-size/1-7-270x300.jpg"
+                                    image="/assets/images/product/medium-size/1-7-270x300.jpg"
                                     name="nom du produit"
                                     prix="30"
                                     />
                                      <CartArticle 
-                                    image="assets/images/product/medium-size/1-7-270x300.jpg"
+                                    image="/assets/images/product/medium-size/1-7-270x300.jpg"
                                     name="nom du produit"
                                     prix="30"
                                     />
                                      <CartArticle 
-                                    image="assets/images/product/medium-size/1-7-270x300.jpg"
+                                    image="/assets/images/product/medium-size/1-7-270x300.jpg"
                                     name="nom du produit"
                                     prix="30"
                                     />
                                      <CartArticle 
-                                    image="assets/images/product/medium-size/1-7-270x300.jpg"
+                                    image="/assets/images/product/medium-size/1-7-270x300.jpg"
                                     name="nom du produit"
                                     prix="30"
                                     />
                                      <CartArticle 
-                                    image="assets/images/product/medium-size/1-7-270x300.jpg"
+                                    image="/assets/images/product/medium-size/1-7-270x300.jpg"
                                     name="nom du produit"
                                     prix="30"
                                     />
                                      <CartArticle 
-                                    image="assets/images/product/medium-size/1-7-270x300.jpg"
+                                    image="/assets/images/product/medium-size/1-7-270x300.jpg"
                                     name="nom du produit"
                                     prix="30"
                                     />
                                      <CartArticle 
-                                    image="assets/images/product/medium-size/1-7-270x300.jpg"
+                                    image="/assets/images/product/medium-size/1-7-270x300.jpg"
                                     name="nom du produit"
                                     prix="30"
                                     />

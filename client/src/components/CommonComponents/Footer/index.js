@@ -4,7 +4,7 @@ import './style.css';
 const Footer = ()=>{
     return(
        <div>
-  <div className="footer-area" data-bg-image="assets/images/footer/bg/1-1920x465.jpg">
+  <div className="footer-area" data-bg-image="/assets/images/footer/bg/1-1920x465.jpg">
     <div className="footer-top section-space-top-100 pb-60">
       <div className="container">
         <div className="row">
@@ -12,7 +12,7 @@ const Footer = ()=>{
             <div className="footer-widget-item">
               <div className="footer-widget-logo">
                 <a href="index.html">
-                  <img src="assets/images/logo/dark.png" alt="Logo" />
+                  <img src="/assets/images/logo/dark.png" alt="Logo" />
                 </a>
               </div>
               <p className="footer-widget-desc">Lorem ipsum dolor sit amet, consec adipisl elit, sed do eiusmod

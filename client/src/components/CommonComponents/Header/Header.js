@@ -5,7 +5,7 @@ import Search from './Header-top/Search/Search'
 import Users from './Header-top/Users/Users'
 import Favoris from './Header-top/Favoris/Favoris'
 import Panier from './Header-top/Panier/PanierCount'
-import HeaderCss from './Header.css'
+import  './Header.css'
 import Home from './Header-Bottom/Home/Home'
 import Shop from './Header-Bottom/Shop/Shop'
 import About from './Header-Bottom/About/Aboutus'
@@ -26,9 +26,9 @@ return(
 
                         <div className="header-right">
                             <ul>
-                                <Search/>
+                               {/*  <Search/> */}
                                 <Users/>
-                                <Favoris/>
+                               {/*  <Favoris/> */}
                                <Panier/>      
                             </ul>
                         </div>
@@ -45,12 +45,12 @@ return(
         <div className="main-menu position-relative">
           <nav className="main-nav">
             <ul>
-                <Home/>
-                <Shop/>
+
+            <Shop/>
+               {/*  <Home/>
                 <About/>
                 <Page/>
-                <Contact/>
-                
+                <Contact/> */}
             </ul>
           </nav>
         </div>
