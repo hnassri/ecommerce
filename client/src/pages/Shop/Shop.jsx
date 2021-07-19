@@ -8,27 +8,30 @@ import Header from '../../components/CommonComponents/Header/Header';
 import Footer from '../../components/CommonComponents/Footer/index';
 import CartArticle from '../../components/CartArticle/CartArticle';
 import axios from "axios"
-
+import { useAuth } from '../../context/auth';
 const Shop = () => {
   const [data, setData] = useState("");
-
+  const [token, setToken] = useState(useAuth().token);
+   console.log(token);
   useEffect(() => {
     const user = localStorage.getItem("token");
-    const api = 'http://127.0.0.1:8000/article'; 
-    const token = user;
+    const api = 'http://206.81.25.252:8000/article'; 
+  
     axios.get(api , { headers: {"Authorization" : `Bearer ${token}`} })
     .then(res => {
       setData(
         
-        <div className="users">
-          {res.data.items.map((user) => (
+        <>
+          {res.data.items.map((article) => (
              <CartArticle
              image="assets/images/product/medium-size/1-7-270x300.jpg" //{data.image} pour l'instant on garde l'image par default
-             name={user.name}
-             prix={data.price}
+             name={article.name}
+             prix={article.price}
+             id={article.id}
+             
            />
           ))}
-        </div>
+        </>
       );
     })
     .catch((error) => {
