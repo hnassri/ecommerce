@@ -13,7 +13,6 @@ const Auth = ()=>{
     return (
 
         <div class="main-wrapper">
-          <Header/>
 <main className="main-content">
   <div className="breadcrumb-area breadcrumb-height" >
     <div className="container h-100">

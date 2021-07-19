@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import '../style.css';
 import { useAuth } from '../../../context/auth';
-
+import { Redirect,Link } from "react-router-dom";
 const SetingUpFrom = () => {
     const { register, user } = useAuth();
     const [email, setEmail] = useState("");
@@ -46,7 +46,10 @@ const SetingUpFrom = () => {
                         </div>
                         <div className="col-lg-12 pt-5">
                             <button className="btn btn-custom-size lg-size btn-webshop-primary">Register</button>
-                        </div>
+                            <p> Cliquez sur ce lien pour <Link to='/login'>
+                                se connecter
+                            </Link></p>
+                        </div>     
                     </div>
                 </div>
             </form>
