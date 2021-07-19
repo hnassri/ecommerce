@@ -23,7 +23,7 @@ const AuthProvider = (props) => {
         const header = {
             "Content-Type": "multipart/form-data"
         }
-        axios.post("http://127.0.0.1:8000/login", formData, header)
+        axios.post("http://206.81.25.252:8000/login", formData, header)
             .then(res => {
                 if(res.data.success){
                     const data = res.data;
@@ -44,7 +44,7 @@ const AuthProvider = (props) => {
         const header = {
             "Content-Type": "multipart/form-data"
         }
-        axios.post("http://127.0.0.1:8000/api/v1/register", formData, header)
+        axios.post("http://206.81.25.252:8000/api/v1/register", formData, header)
             .then(res => {
                 window.location.href = "/login";
             })
