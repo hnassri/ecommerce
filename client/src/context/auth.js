@@ -1,7 +1,7 @@
 import React, { useState, useEffect} from "react";
 import jwt_decode from "jwt-decode";
 import axios from "axios";
-import { Redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const AuthContext = React.createContext();
 function getUser() {
@@ -55,6 +55,7 @@ const AuthProvider = (props) => {
     }
   
     const logout = () => {
+        localStorage.removeItem("token");
         setUser(null);
     };
   
