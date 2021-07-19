@@ -27,7 +27,7 @@ const Login = props => {
 
         axios({
             method: "post",
-            url: "http://127.0.0.1:8000/login",
+            url: "http://206.81.25.252:8000/login",
             data: bodyFormData,
             headers: { "Content-Type": "multipart/form-data" },
           })
