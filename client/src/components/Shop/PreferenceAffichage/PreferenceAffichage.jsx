@@ -4,12 +4,12 @@ import ButtonList from './ButtonList';
 
 
 
-const PreferenceAffichage = ()=>{
+const PreferenceAffichage = (props)=>{
     return(
         <div className="product-topbar">
         <ul>
           <li className="page-count">
-            <span></span> Produit trouver <span>30</span>
+            <span></span> Produit trouver <span>{props.nbrArticle}</span>
           </li>
           <li className="product-view-wrap">
             <ul className="nav" role="tablist">

@@ -10,8 +10,8 @@ const Users =props =>{
             <i className="pe-7s-users"></i>
         </button>
         <ul className="" aria-labelledby="settingButton">
-            <li><a className="dropdown-item" href="#">Mon compte</a></li>
-            <li><a className="dropdown-item" href="/" onClick={logout}>Se déconnecter</a>
+            <li><a className="dropdown-item" href="my-account.html">Mon compte</a></li>
+            <li><a className="dropdown-item" href="login-register.html" onClick={logout}>Se déconnecter</a>
             </li>
         </ul>
     </li>

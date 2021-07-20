@@ -2,7 +2,6 @@ import react from 'react';
 import './style.css';
 import SetingUpFrom from '../../components/From/SignUpForm';
 import LoginFrom from '../../components/From/LoginForm';
-import Footer from '../../components/CommonComponents/Footer';
 import Header from '../../components/CommonComponents/Header/Header';
 
 
@@ -13,7 +12,7 @@ const Auth = ()=>{
     return (
 
         <div class="main-wrapper">
-         
+       
 <main className="main-content">
   <div className="breadcrumb-area breadcrumb-height" >
     <div className="container h-100">

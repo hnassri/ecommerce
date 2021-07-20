@@ -14,36 +14,8 @@ import { useParams } from 'react-router-dom';
 const Shop = () => {
 
   const [data, setData] = useState("");
-  const [token, setToken] = useState(useAuth().token);
-   
- 
-  useEffect(() => {
-  
-    const token = localStorage.getItem("token");
-    const api = `http://206.81.25.252:8000/article/`; 
-  
-    axios.get(api , { headers: {"Authorization" : `Bearer ${token}`} })
-    .then(res => {
-  
-      setData(
-        
-        <>
-        
-          {res.data.items.map((article) => (
-             <CartArticle
-             image = {'http://206.81.25.252:8000'+article.image}
-             name={article.name}
-             prix={article.price}
-             id={article.id}
-             />
-          ))}
-        </>
-      );
-    })
-    .catch((error) => {
-      console.log(error)
-    });
-  },[]);
+  const [nbrArticle, setnbrArticle] = useState(0)
+
 
   return (
     <div className="main-wrapper">
@@ -53,7 +25,7 @@ const Shop = () => {
           <div className="row">
             <div className="col-xl-3 col-lg-4 order-2 order-lg-1 pt-5 pt-lg-0">
               <div className="sidebar-area">
-                <SearchBox />
+                <SearchBox data={data} setData={setData} setnbrArticle={setnbrArticle} />
                 <div className="widgets-area">
                   <Categories />
 
@@ -62,7 +34,7 @@ const Shop = () => {
               </div>
             </div>
             <div className="col-xl-9 col-lg-8 order-1 order-lg-2">
-              <PreferenceAffichage />
+              <PreferenceAffichage nbrArticle={nbrArticle}/>
               <div className="tab-content">
 
                 <div className="tab-pane fade show active" id="grid-view" role="tabpanel" aria-labelledby="grid-view-tab">
