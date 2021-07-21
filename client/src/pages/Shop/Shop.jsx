@@ -1,9 +1,4 @@
-<<<<<<< HEAD
 import React, {useState,useEffect } from 'react'
-=======
-import React, { useState,useEffect } from 'react'
-
->>>>>>> ac777bea2e8f58ee05e15bdbdd1018373c25de73
 import Pagination from '../../components/Pagination/Pagination';
 import PreferenceAffichage from '../../components/Shop/PreferenceAffichage/PreferenceAffichage';
 import SearchBox from '../../components/Shop/SearchBox/SearchBox';
