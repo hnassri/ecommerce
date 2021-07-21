@@ -1,6 +1,7 @@
 import React, { Component ,useState} from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useAuth } from "../../../../../context/auth"
+import { Link } from "react-router-dom";
 
 const Users =props =>{
     const {logout} = useAuth();
@@ -10,9 +11,8 @@ const Users =props =>{
             <i className="pe-7s-users"></i>
         </button>
         <ul className="" aria-labelledby="settingButton">
-            <li><a className="dropdown-item" href="my-account.html">Mon compte</a></li>
-            <li><a className="dropdown-item" href="login-register.html" onClick={logout}>Se déconnecter</a>
-            </li>
+            <li><Link to="/" className="dropdown-item">Mon compte</Link></li>
+            <li><Link to ="/" className="dropdown-item" onClick={logout}>Se déconnecter</Link></li>
         </ul>
     </li>
     )

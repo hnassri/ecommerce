@@ -1,11 +1,12 @@
 import React, { Component ,useState} from "react"
+import { Link } from "react-router-dom";
 import  './Shop.css'
 
 const Shop = props =>{
 
     return(
         <li className="megamenu-holder">
-    <a href="/shop">Shop</a>
+    <Link to="/">Shop</Link>
     {/* <ul className="drop-menu megamenu">
         <li>
         <span className="title">Shop Layout</span>
