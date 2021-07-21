@@ -81,6 +81,39 @@ class ArticleController extends AbstractController
         ], 200);
     }
 
+    #[Route('/admin/article/{id}', name: 'admin_article_show', methods: ["GET", "HEAD"])]
+    public function admin_show(int $id): Response
+    {
+        $article = $this->getDoctrine()->getRepository(Article::class)->find($id);
+        if(empty($article)) {
+            return $this->json([
+                "success" => false,
+                "message" => "This product doesn't exist!"
+            ], 500);
+        }
+        $item = [];
+        $features = $this->getFeatures($article);
+        $categories = $this->getCategories($article);
+        $images = $this->getImages($article);
+        $item = [
+            "id" => $article->getId(),
+            "name" => $article->getName(),
+            "price" => $article->getPrice(),
+            "description" => $article->getDescription(),
+            "quantity" => $article->getQuantity(),
+            "stock" => $article->getStock(),
+            "uuid" => $article->getUuid(),
+            "features" => $features,
+            "images" => $images,
+            "categories" => $categories
+        ];
+        
+        return $this->json([
+            "success" => true,
+            "item" => $item
+        ], 200);
+    }
+
     #[Route('/article_new', name: 'article_create', methods: ["POST"])]
     public function create(Request $request): Response
     {
@@ -267,6 +300,17 @@ class ArticleController extends AbstractController
             $features[] = $feature->getName();
         }
         return $features;
+    }
+
+    protected function getCategories(Article $article)
+    {
+        $global_categories = $this->getDoctrine()->getRepository(GlobalCategory::class)->findBy(["article_id" => $article->getId()]);
+        $categories = [];
+        foreach($global_categories as $global_category){
+            $category = $this->getDoctrine()->getRepository(Category::class)->find($global_category->getCategoryId());
+            $categories[] = $category->getName();
+        }
+        return $categories;
     }
 
     protected function setImages(Article $article, Request $request, $entityManager)
