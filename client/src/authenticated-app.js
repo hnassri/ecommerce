@@ -5,15 +5,22 @@ import Product from "./pages/Product";
 import Page404 from './pages/404';
 import FormArticleCreate from "./components/formulaire/ArticleCreate";
 import FormArticleUpdate from "./components/formulaire/ArticleUpdate";
+import { useAuth } from "./context/auth";
 
 const AuthenticatedApp = () => {
+    const { user } = useAuth();
     return(
         <Router>
             <Switch>
                 <Route exact path='/' component={Shop} />
                 <Route path='/article/:id' component={Product} />
-                <Route path='/admin/article/create' component={FormArticleCreate} />
-                <Route path='/admin/article/edit/:id' component={FormArticleUpdate} />
+                {user.role.includes("ROLE_ADMIN") ? 
+                    <>
+                        <Route path='/admin/article/create' component={FormArticleCreate} />
+                        <Route path='/admin/article/edit/:id' component={FormArticleUpdate} />
+                    </>
+                    : null
+                }
                 <Route exact path='/404' component={Page404} />
                 <Redirect to="/404"/>
             </Switch>
