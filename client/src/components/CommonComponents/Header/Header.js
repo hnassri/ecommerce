@@ -54,7 +54,10 @@ return(
                 <Page/>
                 <Contact/> */}
                 { (user.role.includes("ROLE_ADMIN")) ?
-                  <li><Link to="/admin/articles">Gérer les articles</Link></li>
+                  <>
+                    <li><Link to="/admin/articles">Gérer les articles</Link></li>
+                    <li><Link to="/admin/categories">Gérer les Catégories</Link></li>
+                  </>
                   : null
                 }
               

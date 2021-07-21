@@ -7,6 +7,8 @@ import FormArticleCreate from "./components/formulaire/ArticleCreate";
 import FormArticleUpdate from "./components/formulaire/ArticleUpdate";
 import { useAuth } from "./context/auth";
 import IndexProductAdmin from "./pages/AdminProduct/IndexProductAdmin";
+import IndexCategoryAdmin from "./pages/AdminCategories/IndexAdminCategories";
+
 
 const AuthenticatedApp = () => {
     const { user } = useAuth();
@@ -17,6 +19,7 @@ const AuthenticatedApp = () => {
                 <Route path='/article/:id' component={Product} />
                 {user.role.includes("ROLE_ADMIN") ? 
                     <>
+                        <Route path='/admin/categories' component={IndexCategoryAdmin} />
                         <Route path='/admin/articles' component={IndexProductAdmin} />
                         <Route path='/admin/article/create' component={FormArticleCreate} />
                         <Route path='/admin/article/edit/:id' component={FormArticleUpdate} />
