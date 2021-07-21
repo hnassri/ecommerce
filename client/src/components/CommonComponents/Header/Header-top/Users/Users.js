@@ -9,9 +9,9 @@ const Users =props =>{
         <button className="btn btn-link dropdown-toggle ht-btn p-0" type="button" id="settingButton" data-bs-toggle="dropdown" aria-label="setting" aria-expanded="false">
             <i className="pe-7s-users"></i>
         </button>
-        <ul className="dropdown-menu" aria-labelledby="settingButton">
-            <li><a className="dropdown-item" href="#">Mon compte</a></li>
-            <li><a className="dropdown-item" href="/" onClick={logout}>Se déconnecter</a>
+        <ul className="" aria-labelledby="settingButton">
+            <li><a className="dropdown-item" href="my-account.html">Mon compte</a></li>
+            <li><a className="dropdown-item" href="login-register.html" onClick={logout}>Se déconnecter</a>
             </li>
         </ul>
     </li>

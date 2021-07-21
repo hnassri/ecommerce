@@ -1,8 +1,7 @@
 import React, { useState, useEffect} from "react";
 import jwt_decode from "jwt-decode";
 import axios from "axios";
-import { Link } from "react-router-dom";
-
+import {Redirect,useHistory } from "react-router-dom";
 const AuthContext = React.createContext();
 function getUser() {
     const token = localStorage.getItem("token");
@@ -46,12 +45,12 @@ const AuthProvider = (props) => {
         }
         axios.post("http://206.81.25.252:8000/api/v1/register", formData, header)
             .then(res => {
-                window.location.href = "/login";
+              window.location="/login";
             })
             .catch(e => {
-                console.log(e.response.data.error);
+                console.log(e);
             })
-       
+         
     }
   
     const logout = () => {
