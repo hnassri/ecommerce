@@ -1,4 +1,9 @@
+<<<<<<< HEAD
 import React, {useState,useEffect } from 'react'
+=======
+import React, { useState,useEffect } from 'react'
+
+>>>>>>> ac777bea2e8f58ee05e15bdbdd1018373c25de73
 import Pagination from '../../components/Pagination/Pagination';
 import PreferenceAffichage from '../../components/Shop/PreferenceAffichage/PreferenceAffichage';
 import SearchBox from '../../components/Shop/SearchBox/SearchBox';
@@ -28,15 +33,12 @@ const Shop = () => {
                 <SearchBox data={data} setData={setData} setnbrArticle={setnbrArticle} />
                 <div className="widgets-area">
                   <Categories />
-
                 </div>
-
               </div>
             </div>
             <div className="col-xl-9 col-lg-8 order-1 order-lg-2">
               <PreferenceAffichage nbrArticle={nbrArticle}/>
               <div className="tab-content">
-
                 <div className="tab-pane fade show active" id="grid-view" role="tabpanel" aria-labelledby="grid-view-tab">
                   <div className="product-grid-view row g-y-30">
                 {data}

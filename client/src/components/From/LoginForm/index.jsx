@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import { useAuth } from '../../../context/auth';
 import '../style.css';
-
+import { Redirect,Link } from "react-router-dom";
 
 const LoginFrom = () => {
     const { login } = useAuth();
@@ -39,6 +39,9 @@ const LoginFrom = () => {
                 </div>
                 <div className="col-lg-12 pt-5">
                   <button className="btn btn-custom-size lg-size btn-webshop-primary">Login</button>
+                 <p> Cliquez sur ce lien pour <Link to='/signup'>
+                    créer un compte
+                  </Link></p>
                 </div>
               </div>
             </div>
