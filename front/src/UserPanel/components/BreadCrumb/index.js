@@ -9,7 +9,7 @@ const BreadCrumb = (props) => {
                     <div className="row h-100">
                         <div className="col-lg-12">
                             <div className="breadcrumb-item">
-                                <h2 className="breadcrumb-heading">Magasin</h2>
+                                <h2 className="breadcrumb-heading">{props.name}</h2>
                                 <ul>
                                     <li>
                                         <Link to="/" >Accueil</Link>
