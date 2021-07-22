@@ -4,6 +4,7 @@ import Home from './pages/Home/Home';
 import Shop from './pages/Shop/Shop';
 import Product from "./pages/Product";
 import Page404 from './pages/404';
+import StoreBag from "./pages/StoreBag/StoreBag";
 
 const AuthenticatedApp = () => {
     return(
@@ -11,6 +12,7 @@ const AuthenticatedApp = () => {
             <Switch>
                 <Route exact path='/' component={Shop} />
                 <Route  path='/article/:id' component={Product} />
+               
                 <Route exact path='/404' component={Page404} />
                 <Redirect to="/404"/>
             </Switch>
