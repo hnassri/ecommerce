@@ -267,20 +267,12 @@ class UserController extends AbstractController
             400
         );
     }
-    #[Route('/api/v1/user/edit/passsword', name: "user_password", methods: "PATCH")]
+    
+    #[Route('/user/edit/passsword', name: "user_password", methods: "PATCH")]
     public function uptade_password( Request $request = null, UserRepository $userRepository = null): Response
     {
         $id = $this->info_token($request)["id"];
-        if (!$id || (int)$id == 0) {
-            return $this->json(
-                [
-                    "success" => false,
-                    "error" => "user id not specified"
-                ],
-                404
-            );
-        }
-
+   
         if (!$request->request->has("password")) {
             return $this->json(
                 [
@@ -325,7 +317,7 @@ class UserController extends AbstractController
             );
         }
     }
-    #[Route('/api/v1/user/edit/password/{id}', name: "user_password_admin", methods: "PATCH")]
+    #[Route('/api/v1/user/password/{id}', name: "user_password_admin", methods: "PATCH")]
     public function uptade_password_admin($id = 0, Request $request = null, UserRepository $userRepository = null): Response
     {
         if (!$id || (int)$id == 0) {
