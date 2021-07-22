@@ -14,7 +14,7 @@ const AuthProvider = (props) => {
         
         // Pull saved login state from localStorage / AsyncStorage
       }, []);
-
+    const token = localStorage.getItem("token");
     const login = (email, password) => {
         let formData = new FormData();
         formData.append("email", email);
@@ -62,7 +62,8 @@ const AuthProvider = (props) => {
       login,
       user,
       logout,
-      register
+      register,
+      token
     };
   
     return <AuthContext.Provider value={authContextValue} {...props} />;

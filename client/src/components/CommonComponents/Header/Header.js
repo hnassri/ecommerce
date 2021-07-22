@@ -12,8 +12,10 @@ import About from './Header-Bottom/About/Aboutus'
 import Contact from './Header-Bottom/Contact/Contact'
 import Page from './Header-Bottom/Pages/Page'
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { Link } from "react-router-dom";
+import { useAuth } from "../../../context/auth";
 const Header=props=>{
-
+  const { user } = useAuth();
 return(
 <div>
 <div className="header-middle py-30">
@@ -46,11 +48,19 @@ return(
           <nav className="main-nav">
             <ul>
 
-            <Shop/>
+              <Shop/>
                {/*  <Home/>
                 <About/>
                 <Page/>
                 <Contact/> */}
+                { (user.role.includes("ROLE_ADMIN")) ?
+                  <>
+                    <li><Link to="/admin/articles">Gérer les articles</Link></li>
+                    <li><Link to="/admin/categories">Gérer les Catégories</Link></li>
+                  </>
+                  : null
+                }
+              
             </ul>
           </nav>
         </div>
