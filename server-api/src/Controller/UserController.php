@@ -383,6 +383,42 @@ class UserController extends AbstractController
         }
     }
 
+    #[Route('/api/v1/user/delete/{id}', name: "delete_user", methods: "DELETE")]
+    public function delete_user($id = 0, Request $request = null, UserRepository $userRepository = null): Response
+    {
+        
+        if (!$id || (int)$id == 0) {
+            return $this->json(
+                [
+                    "success" => false,
+                    "error" => "user id not specified"
+                ],
+                404
+            );
+        }
+        $user = $userRepository->findOneBy([
+            "id" => $id
+        ]);
+        if(!$user){
+            return $this->json(
+                [
+                    "success" => false,
+                    "error" => " User is not specified"
+                ],
+                404
+            );
+        }
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->remove($user);
+        $entityManager->flush();
+
+        return $this->json([
+            "success" => true,
+            "message" => "User deleted!"
+        ], 200);
+     
+    }
+
     private function check_password(string $password, string $email, UserRepository $userRepository): bool
     {
         $user = $userRepository
