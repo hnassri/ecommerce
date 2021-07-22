@@ -1,0 +1,20 @@
+.header-logo {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+        -ms-flex-align: center;
+            align-items: center;
+  }
+  
+  @media (max-width: 479px) {
+    .header-logo {
+      width: 140px;
+    }
+  }
+.sticky .header-logo-wrap {
+    top: 0;
+    height: 100%;
+  }
