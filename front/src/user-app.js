@@ -1,12 +1,14 @@
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
-import BreadCrumb from './UserPanel/components/BreadCrumb';
 import Navbar from './UserPanel/components/Navbar';
+import Shop from './UserPanel/pages/Shop';
 
 const UserPanel = () => {
     return(
         <Router>
             <Navbar/>
-            <BreadCrumb name="Magasin" />
+            <Switch>
+                <Route exact path="/" component={Shop}/>
+            </Switch>
         </Router>
     );
 }
