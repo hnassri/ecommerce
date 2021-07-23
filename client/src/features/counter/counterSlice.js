@@ -4,47 +4,54 @@ import { createSlice } from '@reduxjs/toolkit'
 export const counterSlice = createSlice({
   name: 'counter',
   initialState: {
-    data: localStorage.getItem("storeBage"),
+    data: localStorage.getItem("storeBag"),
   },
   reducers: {
     add: (state, article) => {
+      const idArticle = article.payload.id;
+      const quantite = article.payload.quantite
+      //premier article dans le panier
       if (state.data == null) {
-        state.data = article.payload
-        localStorage.setItem("storeBage", JSON.stringify(state.data));
+        let newArticle = [];
+        newArticle.push(article.payload);
+        newArticle = JSON.stringify(newArticle);
+        localStorage.setItem('storeBag', newArticle);
+        return true;
       }
-      const idArticle = parseInt(Object.keys(article.payload)[0])
-      const quantite = Object.values(article.payload)[0].quantite
-      //article local storage 
-
-      const data = JSON.parse(state.data)
-      const global = Object.entries(data)
-      const idtrouver = false
-      function verifpagnier() {
-        for (let index = 0; index < global.length; index++) {
-          const id = global[index];
-          console.log(id)
-          if (id == idArticle) {
-            global[index][1].quantite = quantite;
-            return true
-          }
+      const dataStorage = JSON.parse(state.data);
+      let elmentTrouver = false
+      for (let i = 0; i < dataStorage.length; i++) {
+        const element = dataStorage[i];
+        if (element.id == idArticle) {
+          element.quantite = quantite;
+          localStorage.setItem('storeBag', JSON.stringify(dataStorage))
+          elmentTrouver = true;
         }
-        return false;
       }
-
-
-      if (!verifpagnier()) {
-        let newArticle = Object.entries(article.payload)
-        global.push(newArticle);
+      console.log(elmentTrouver);
+      if (elmentTrouver === false) {
+        dataStorage.push(article.payload);
+        localStorage.setItem('storeBag', JSON.stringify(dataStorage));
       }
-
-      /* let obGolbal = JSON.stringify(global)
-      localStorage.setItem("storeBage", obGolbal)*/
+      return true;
     },
+
+
+    deleteBag : (state)=>{
+
+         if(state.data === null){
+           return false;
+         }
+         localStorage.removeItem('storeBag');
+         return true;
+
+         
+    }
 
   },
 })
 
 // Action creators are generated for each case reducer function
-export const { add } = counterSlice.actions
+export const { add, deleteBag} = counterSlice.actions
 
 export default counterSlice.reducer

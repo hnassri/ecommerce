@@ -5,10 +5,7 @@ import SearchBox from '../../components/Shop/SearchBox/SearchBox';
 import Categories from '../../components/Shop/SlideBar/Categories/Catgefories';
 import Header from '../../components/CommonComponents/Header/Header';
 import Footer from '../../components/CommonComponents/Footer/index';
-import CartArticle from '../../components/CartArticle/CartArticle';
-import axios from "axios"
-import { useAuth } from '../../context/auth';
-import { useParams } from 'react-router-dom';
+
 
 
 const Shop = () => {
