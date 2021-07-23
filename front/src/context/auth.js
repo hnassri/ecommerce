@@ -1,12 +1,14 @@
 import React, { useState, useEffect} from "react";
 import jwt_decode from "jwt-decode";
 import axios from "axios";
-import {Redirect,useHistory } from "react-router-dom";
+
 const AuthContext = React.createContext();
+
 function getUser() {
     const token = localStorage.getItem("token");
     return token ? jwt_decode(token) : null;
 }
+
 const AuthProvider = (props) => {
     const [user, setUser] = useState(getUser());
     useEffect(() => {
@@ -15,7 +17,8 @@ const AuthProvider = (props) => {
         // Pull saved login state from localStorage / AsyncStorage
       }, []);
     const token = localStorage.getItem("token");
-    const login = (email, password) => {
+
+    const login = (email, password, props) => {
         let formData = new FormData();
         formData.append("email", email);
         formData.append("password", password);
@@ -27,16 +30,16 @@ const AuthProvider = (props) => {
                 if(res.data.success){
                     const data = res.data;
                     localStorage.setItem("token", data.token);
+                    props.history.push("/");
                 }
                 setUser(getUser());
             })
             .catch(e => {
-                console.log(e.response.data.message);
+                console.log(e);
             })
-       
     }
 
-    const register = (email, password) => {
+    const register = (email, password, props) => {
         let formData = new FormData();
         formData.append("email", email);
         formData.append("password", password);
@@ -45,12 +48,13 @@ const AuthProvider = (props) => {
         }
         axios.post("http://206.81.25.252:8000/api/v1/register", formData, header)
             .then(res => {
-              window.location="/login";
+                if(res.data.success === true){
+                    props.history.push(`/login`);
+                }
             })
             .catch(e => {
                 console.log(e);
             })
-         
     }
   
     const logout = () => {
@@ -59,16 +63,16 @@ const AuthProvider = (props) => {
     };
   
     const authContextValue = {
-      login,
-      user,
-      logout,
-      register,
-      token
+        login,
+        user,
+        logout,
+        register,
+        token
     };
   
     return <AuthContext.Provider value={authContextValue} {...props} />;
-  };
-  
-  const useAuth = () => React.useContext(AuthContext);
-  
-  export { AuthProvider, useAuth };
+};
+
+const useAuth = () => React.useContext(AuthContext);
+
+export { AuthProvider, useAuth };
