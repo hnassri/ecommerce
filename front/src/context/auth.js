@@ -1,6 +1,6 @@
 import React, { useState, useEffect} from "react";
 import jwt_decode from "jwt-decode";
-import axios from "axios";
+import axios from "../axios/axios";
 
 const AuthContext = React.createContext();
 
@@ -25,7 +25,7 @@ const AuthProvider = (props) => {
         const header = {
             "Content-Type": "multipart/form-data"
         }
-        axios.post("http://206.81.25.252:8000/login", formData, header)
+        axios.post("/login", formData, header)
             .then(res => {
                 if(res.data.success){
                     const data = res.data;
@@ -46,7 +46,7 @@ const AuthProvider = (props) => {
         const header = {
             "Content-Type": "multipart/form-data"
         }
-        axios.post("http://206.81.25.252:8000/api/v1/register", formData, header)
+        axios.post("/api/v1/register", formData, header)
             .then(res => {
                 if(res.data.success === true){
                     props.history.push(`/login`);

@@ -1,12 +1,12 @@
 import React, {useEffect, useState} from "react";
-import axios from'axios';
+import axios from '../../../axios/axios';
 import { Link } from "react-router-dom";
 
 const SideBar = () => {
     const [categories, setCategories] = useState([]);
 
     useEffect(() => {
-        const api = 'http://206.81.25.252:8000/category'; 
+        const api = '/category'; 
         axios.get(api)
         .then(res => {
             if(res.data.success === true){
