@@ -7,6 +7,7 @@ const ProductDetailAdmin = (props) => {
     const { token } = useAuth();
     const article = props.article;
     const [stock, setStock] = useState(article.stock);
+    const [isInStock, setisInStock] = useState(false);
     const handleUpdateProduct = () => {
         return props.history.push(`/admin/article/edit/${article.id}`);
     }
@@ -20,8 +21,12 @@ const ProductDetailAdmin = (props) => {
             const data = res.data;
             if(data.success === true){
                 setStock("Empty");
+                setisInStock(false)
             }
+           
+         
         })
+       
     }
     return (
         <tbody>
@@ -36,7 +41,11 @@ const ProductDetailAdmin = (props) => {
                     <button type="submit" className="btn btn-success" onClick={() => handleUpdateProduct()}>Modifier</button>
                 </td>
                 <td>
+                {isInStock ?
+                      <button type="submit" className="btn btn-success" >Mettre en stock</button>
+                    :
                     <button type="submit" className="btn btn-warning" onClick={() => handleOutStockProduct()}>Mettre en rupture de stock</button>
+                }
                 </td>
             </tr>
         </tbody>

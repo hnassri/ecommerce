@@ -57,6 +57,7 @@ return(
                   <>
                     <li><Link to="/admin/articles">Gérer les articles</Link></li>
                     <li><Link to="/admin/categories">Gérer les Catégories</Link></li>
+                    <li><Link to="/admin/users">Gérer les Users</Link></li>
                   </>
                   : null
                 }
