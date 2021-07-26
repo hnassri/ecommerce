@@ -59,6 +59,21 @@ const UserUpdate = (props) => {
                 console.log(e.response);
             })
     }
+    const Roles = role;
+        let button;
+        if (Roles==="ROLE_ADMIN") {
+        button =   
+            <select value={role} onChange={e => setRole(e.target.value)}>                               
+                <option value={role}>{role}</option>
+                <option value="ROLE_USER">ROLE_USER</option>  
+            </select>;
+        } else {
+        button =    
+            <select value={role} onChange={e => setRole(e.target.value)}>                               
+                <option value={role}>{role}</option>
+                <option value="ROLE_ADMIN">ROLE_ADMIN</option>  
+            </select>;
+        }
 
     return(
         <main className="main-content">
@@ -92,7 +107,7 @@ const UserUpdate = (props) => {
                                     <div className="price-box">
                                         <span className="new-price">Role</span>
                                         <div>
-                                            <input className="cart-plus-minus-box" type="text"  value={role} required onInput={e => setRole(e.target.value)}/>
+                                            {button}
                                         </div>
                                     </div>
                                  
