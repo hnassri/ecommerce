@@ -77,7 +77,7 @@ const FormArticleUpdate = () => {
                 "Content-Type": "multipart/form-data",
                 "Authorization" : `Bearer ${token}`
             };
-            axios.post("http://206.81.25.252:8000/article_new", formData, {headers: header})
+            axios.post("http://206.81.25.252:8000/article/edit/"+id, formData, {headers: header})
             .then(res => {
                 const data = res.data;
                 if(data.success === true){
