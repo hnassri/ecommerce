@@ -262,7 +262,7 @@ class ArticleController extends AbstractController
             $entityManager->flush();
             return $this->json([
                 "success" => true,
-                "message" => "Product has been out stocked!"
+                "message" => "Product has been in stocked!"
             ], 200);
         }
     protected function checkQuantity(Request $request, int $id): Response
