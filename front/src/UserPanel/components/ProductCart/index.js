@@ -7,7 +7,7 @@ const ProductCart = ({article}) => {
             <div className="product-item">
                 <div className="product-img">
                     <Link to={"/article/" + article.id}>
-                        <img className="primary-img" src={"http://206.81.25.252:8000/" + article.image} alt="Product Images"/>
+                        <img className="primary-img" src={"http://localhost:8000" + article.image} alt="Product Images"/>
                     </Link>
                 </div>
                 <div className="product-content">

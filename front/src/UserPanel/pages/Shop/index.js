@@ -14,11 +14,13 @@ const Shop = () => {
             }
         })
         .catch(e => {
-            if(e.response.data.success === false){
-                alert(e.response.data.message);
+            if(e.response !== undefined){
+                if(e.response.data.success === false){
+                    console.log(e.response.data.message);
+                }
             }else{
-                alert("An error occured");
-            }
+                console.log("An error occured");
+            }   
         })
     }
     useEffect(() => {

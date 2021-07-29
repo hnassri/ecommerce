@@ -2019,6 +2019,7 @@ blockquote p {
 
 /* ---Header Logo--- */
 .header-logo {
+  padding-left: 4em;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -6266,6 +6267,11 @@ blockquote p {
   }
 }
 
+#edit {
+  padding: 5px;
+  outline: none;
+}
+
 .coupon-all {
   margin-top: 30px;
 }
@@ -6619,6 +6625,7 @@ blockquote p {
   color: #ffffff;
   cursor: pointer;
   display: inline-block;
+  float: left;
   font-size: 12px;
   height: 40px;
   line-height: 40px;

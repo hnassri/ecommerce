@@ -4,15 +4,18 @@ import Login from './UserPanel/pages/Login';
 import Register from './UserPanel/pages/Register';
 import Shop from './UserPanel/pages/Shop';
 
-const UserPanel = () => {
+const UserPanel = (props) => {
     return(
         <Router>
-            <Navbar/>
-            <Switch>
-                <Route exact path="/" component={Shop}/>
-                <Route exact path="/login" component={Login}/>
-                <Route exact path="/register" component={Register}/>
-            </Switch>
+            <div className="main-wrapper">
+                <Navbar {...props}/>
+                <Switch>
+                    <Route exact path="/" component={Shop}/>
+                    <Route exact path="/login" component={Login}/>
+                    <Route exact path="/register" component={Register}/>
+                </Switch>
+            </div>
+            
         </Router>
     );
 }

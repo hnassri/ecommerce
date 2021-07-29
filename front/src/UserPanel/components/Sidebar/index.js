@@ -33,14 +33,14 @@ const SideBar = () => {
                         <h2 className="widgets-title mb-4">Catégorie</h2>
                         <ul className="widgets-category">
                             <li>
-                                <Link>
+                                <Link to="#">
                                     <i className="fa fa-chevron-right"></i>&nbsp;Toute Catégorie
                                 </Link>
                             </li>
                             {categories.map((value,index) => {
                                 return(
                                     <li key={index}>
-                                        <Link>
+                                        <Link to="#">
                                             <i className="fa fa-chevron-right"></i>&nbsp;{value.name}    
                                         </Link>
                                     </li>
