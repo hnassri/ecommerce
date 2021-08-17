@@ -5,6 +5,7 @@ import Register from './UserPanel/pages/Register';
 import Shop from './UserPanel/pages/Shop';
 import Page404 from './UserPanel/pages/404/index'
 import Product from './UserPanel/pages/Product/index'
+import Cart from './UserPanel//pages/Cart'
 import { useAuth } from "./context/auth";
 import MyAccount from './UserPanel/pages/MyAccount/index'
 
@@ -23,6 +24,7 @@ const AuthenticatedApp = (props) => {
                     <Route exact path="/" component={Shop}/>
                     <Route path='/article/:id' component={Product} />
                     <Route exact path='/404' component={Page404} /> 
+                    <Route exact path='/cart' component={Cart} /> 
                     
                     {/* Authenticated Route */}
                     <Route path="/my-account" component={MyAccount}/>
@@ -45,6 +47,7 @@ const UnauthenticatedApp = (props) => {
                     <Route exact path="/" component={Shop}/>
                     <Route path='/article/:id' component={Product} />
                     <Route exact path='/404' component={Page404} /> 
+                    <Route exact path='/cart' component={Cart} /> 
                     
                     {/* Unauthenticated Route */}
                     <Route  path="/login" component={Login}/> 
