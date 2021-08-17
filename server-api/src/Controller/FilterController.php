@@ -84,7 +84,7 @@ class FilterController extends AbstractController
             return $this->json([
                 "success" => false,
                 "message" => "No Products founded!"
-            ], 500);
+            ], 404);
         }
         $items = [];
         foreach($articles as $article){
@@ -134,7 +134,7 @@ class FilterController extends AbstractController
             return $this->json([
                 "success" => false,
                 "message" => "No Products founded!"
-            ], 500);
+            ], 404);
         }
         $items = [];
         foreach($articles as $article){
