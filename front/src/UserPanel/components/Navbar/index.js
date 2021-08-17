@@ -14,7 +14,7 @@ const Navbar = (props) => {
                         <div className="col-lg-12">
                             <div className="header-middle-wrap position-relative">
                                 <Link to="/" className="header-logo mx-auto d-block">
-                                    <img src="assets/images/logo/dark.png" alt="Header Logo"/>
+                                    <img src="/assets/images/logo/dark.png" alt="Header Logo"/>
                                 </Link>
                                 <div className="header-right">
                                     <ul>

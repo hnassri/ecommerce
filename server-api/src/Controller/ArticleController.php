@@ -246,6 +246,25 @@ class ArticleController extends AbstractController
             "message" => "Product has been out stocked!"
         ], 200);
     }
+        #[Route('/article/instock/{id}', name: 'article_instock', methods: ["GET", "HEAD"])]
+        public function inStockArticle(int $id)
+        {
+            $entityManager = $this->getDoctrine()->getManager();
+            $article = $this->getDoctrine()->getRepository(Article::class)->find($id);
+            if(!$article){
+                return $this->json([
+                    "success" => false,
+                    "message" => "This product doesn't exist!"
+                ], 500);
+            }
+            $article->setStock(true);
+            $entityManager->persist($article);
+            $entityManager->flush();
+            return $this->json([
+                "success" => true,
+                "message" => "Product has been in stocked!"
+            ], 200);
+        }
     protected function checkQuantity(Request $request, int $id): Response
     {
         $entityManager = $this->getDoctrine()->getManager();
