@@ -22,6 +22,26 @@ const SideBar = (props) => {
             }    
         });
     }
+    const searchByCategory = (name) => {
+        if (name === ""){
+            props.getArticles();
+        }else{
+            axios.get("/filter/category/" + name)
+            .then(res => {
+                if(res.data.success === true){
+                    setArticles(res.data.items);
+                }
+            })
+            .catch((error) => {
+                if(error.response.data !== undefined && error.response.data.success === false ){
+                    setArticles(null);
+                }else{
+                    console.log(error);
+                }    
+            });
+        }
+        setName("");
+    }
 
     useEffect(() => {
         const api = '/category'; 
@@ -40,7 +60,7 @@ const SideBar = (props) => {
             <div className="sidebar-area">
                 <div className="widgets-searchbox">
                     <form id="widgets-searchbox" onSubmit={searchByName}>
-                        <input className="input-field" type="text" placeholder="Search" onChange={e => setName(e.target.value)}/>
+                        <input className="input-field" type="text" placeholder="Search" onChange={e => setName(e.target.value)} value={name}/>
                         <button className="widgets-searchbox-btn" type="submit">
                             <i className="fa fa-search"></i>
                         </button>
@@ -51,14 +71,14 @@ const SideBar = (props) => {
                         <h2 className="widgets-title mb-4">Catégorie</h2>
                         <ul className="widgets-category">
                             <li>
-                                <Link to="#">
+                                <Link to="#" onClick={e => searchByCategory("")}>
                                     <i className="fa fa-chevron-right"></i>&nbsp;Toute Catégorie
                                 </Link>
                             </li>
                             {categories.map((value,index) => {
                                 return(
                                     <li key={index}>
-                                        <Link to="#">
+                                        <Link to="#" onClick={e => searchByCategory(value.name)}>
                                             <i className="fa fa-chevron-right"></i>&nbsp;{value.name}    
                                         </Link>
                                     </li>

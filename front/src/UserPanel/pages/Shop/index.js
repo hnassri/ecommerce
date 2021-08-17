@@ -32,7 +32,7 @@ const Shop = () => {
             <div className="shop-area section-space-y-axis-100">
                 <div className="container">
                     <div className="row">
-                        <SideBar setArticles={setArticles}/>
+                        <SideBar setArticles={setArticles} getArticles={getArticles}/>
                         <div className="col-xl-9 col-lg-8 order-1 order-lg-2">
                             <div className="tab-content">
                                 <div className="tab-pane fade show active" id="grid-view" role="tabpanel" aria-labelledby="grid-view-tab">
