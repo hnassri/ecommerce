@@ -9,36 +9,53 @@ import { useAuth } from "./context/auth";
 import MyAccount from './UserPanel/pages/MyAccount/index'
 
 const UserPanel = (props) => {
-    const { user } = useAuth();
-   
-    let PrivateRoute;
-    if (user) {
-      PrivateRoute =
-      <> 
-        <Route path="/my-account" component={MyAccount}/> 
-      </>
-    } else {
-      PrivateRoute = 
-      <> 
-        <Route path="/login" component={Login}/>
-        <Route path="/register" component={Register}/>
-      </>
-    }
+    const { user } = useAuth();  
+    return user ? <AuthenticatedApp {...props} /> : <UnauthenticatedApp {...props}/>
+}
 
+const AuthenticatedApp = (props) => {
     return(
         <Router>
             <div className="main-wrapper">
                 <Navbar {...props}/>
                 <Switch>
+                    {/* Default Route */}
                     <Route exact path="/" component={Shop}/>
                     <Route path='/article/:id' component={Product} />
-                    <Route exact path='/404' component={Page404} />
-                    {PrivateRoute}
-                    <Redirect to='/404'/>
+                    <Route exact path='/404' component={Page404} /> 
+                    
+                    {/* Authenticated Route */}
+                    <Route path="/my-account" component={MyAccount}/>
+
+                    {/* Redirect */}
+                    <Redirect to="/404"/>
                 </Switch>
             </div>
         </Router>
-    );
+    )
+}
+
+const UnauthenticatedApp = (props) => {
+    return(
+        <Router>
+            <div className="main-wrapper">
+                <Navbar {...props}/>
+                <Switch>
+                    {/* Default Route */}
+                    <Route exact path="/" component={Shop}/>
+                    <Route path='/article/:id' component={Product} />
+                    <Route exact path='/404' component={Page404} /> 
+                    
+                    {/* Unauthenticated Route */}
+                    <Route  path="/login" component={Login}/> 
+                    <Route  path="/register" component={Register}/>
+
+                    {/* Redirect */}
+                    <Redirect to="/404"/>
+                </Switch>
+            </div>
+        </Router>
+    )
 }
 
 export default UserPanel;
