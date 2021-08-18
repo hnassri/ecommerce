@@ -60,7 +60,7 @@ const SideBar = (props) => {
             <div className="sidebar-area">
                 <div className="widgets-searchbox">
                     <form id="widgets-searchbox" onSubmit={searchByName}>
-                        <input className="input-field" type="text" placeholder="Search" onChange={e => setName(e.target.value)} value={name}/>
+                        <input className="input-field" type="text" placeholder="Rechercher" onChange={e => setName(e.target.value)} value={name}/>
                         <button className="widgets-searchbox-btn" type="submit">
                             <i className="fa fa-search"></i>
                         </button>
@@ -85,6 +85,21 @@ const SideBar = (props) => {
                                 )
                             })}
                         </ul>
+                    </div>
+                    <div class="widgets-item widgets-filter">
+                        <h2 class="widgets-title mb-4">Filtres</h2>
+                        <div class="product-topbar">
+                            <ul>
+                                <li class="short">
+                                    <select class="nice-select">
+                                        <option value="1">Trier par nom (A-Z)</option>
+                                        <option value="2">Trier par nom (Z-A)</option>
+                                        <option value="3">Trier par prix ↑</option>
+                                        <option value="4">Trier par prix ↓</option>
+                                    </select>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>
