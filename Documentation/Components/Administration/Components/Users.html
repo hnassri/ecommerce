@@ -1,0 +1,62 @@
+<!-- Component utilisateurs -->
+<div class="tab-pane fade" id="account-details" role="tabpanel" aria-labelledby="account-details-tab">
+    <div class="p-4">
+        <h2 class="widgets-title mb-4">Utilisateurs</h2>
+            <div class="widgets-searchbox">
+                <form id="widgets-searchbox">
+                    <input class="input-field" type="text" placeholder="Rechercher"></input>
+                        <button class="widgets-searchbox-btn" type="submit">
+                            <i class="fa fa-search"></i>
+                        </button>
+                </form>
+            </div>
+            <div class="product-topbar">
+                <ul >
+                    <li class="short">
+                        <select class="nice-select" style="display: none;">
+                            <option value="1">Trier par nom (A-Z)</option>
+                            <option value="2">Trier par nom (Z-A)</option>
+                        </select>
+                    </li>
+                    <li class="short">
+                        <input class="cart_btn" value="Actualiser" type="submit">
+                    </li>
+                </ul>
+            </div>
+    </div>
+    <div class="cart-area">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <form>
+                        <div class="table-content table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th class="cart-product-name">E-mail</th>
+                                        <th class="cart-product-name">Rôles</th>
+                                        <th class="product_remove">Supprimer</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="product-name"><a href="#">E-mail (À Définir)</a></td>
+                                        <td class="product-name"><a href="#">Rôles (À Définir)</a></td>
+                                        <td class="product_remove">
+                                            <a href="#">
+                                                <i class="pe-7s-close" data-tippy="Supprimer" data-tippy-inertia="true"
+                                            data-tippy-animation="shift-away" data-tippy-delay="50"
+                                            data-tippy-arrow="true" data-tippy-theme="sharpborder"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Component utilisateurs -->
