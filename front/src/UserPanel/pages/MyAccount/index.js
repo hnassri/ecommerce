@@ -29,10 +29,10 @@ const MyAccount = () => {
                         <div className="tab-pane fade" id="account-address" role="tabpanel" aria-labelledby="account-address-tab">
                             <div className="row">
                             <div className="col-lg-12 col-12">
-                                <div className="checkbox-form">
+                                <div >
                                 {/* Component adresses sauvegardées */}
-                                {/* Component ajouter une adresse */}
                                 <AdressBillingForm/>
+                                {/* Component ajouter une adresse */}
                                 <AdressForm/>
                                 </div>
                             </div>
