@@ -1,0 +1,11 @@
+language: php
+sudo: false
+warnings_are_errors: true
+services:
+    - sqlite
+php:
+    - 8.0
+
+install: composer install
+script:
+    - php ./bin/phpunit
