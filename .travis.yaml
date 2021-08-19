@@ -1,0 +1,13 @@
+language: php
+sudo: false
+cache:
+    directories:
+        - $HOME/.composer/cache
+        - $HOME/symfony-bridge/.phpunit
+warnings_are_errors: true
+services:
+    - sqlite
+php:
+    - 8.0.8
+script:
+    - ./server-api/vendor/bin/simple-phpunit --coverage-text --colors
