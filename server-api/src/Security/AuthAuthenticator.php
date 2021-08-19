@@ -51,6 +51,9 @@ class AuthAuthenticator extends AbstractAuthenticator
                 case 'user_update':
                 case 'user_info':
                 case 'user_password':
+                case 'adress_new':
+                case 'adress_show':
+                case 'adress_delete':
                     /*  */
                     return $this->check_authorization($request, ['*']);
                 default:
