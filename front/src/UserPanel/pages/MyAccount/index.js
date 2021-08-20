@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import BreadCrumb from "../../components/BreadCrumb"
 import { useParams } from 'react-router-dom';
 import MyAccountForm from '../../components/MyAccount/MyAccountForm'
-import Slidebar from '../../components/MyAccount/Slidebar'
+import AccountSidebar from '../../components/MyAccount/AccountSidebar'
 import DefaultAccount from '../../components/MyAccount/DefaultAccount'
 import MyOrders from '../../components/MyAccount/MyOrders'
 import AdressBillingForm from '../../components/MyAccount/AdressBillingForm'
@@ -17,8 +17,8 @@ const MyAccount = () => {
                 <div className="account-page-area section-space-y-axis-100">
                 <div className="container">
                     <div className="row">
-                    {/* Sidebar */}
-                    <Slidebar/>
+                    {/* AccountSidebar */}
+                    <AccountSidebar/>
                     <div className="col-lg-9">
                         <div className="tab-content myaccount-tab-content" id="account-page-tab-content">
                         {/* Component Mon compte */}

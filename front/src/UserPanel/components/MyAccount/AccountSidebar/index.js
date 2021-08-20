@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link } from 'react-router-dom';
 
 
-const Slidebar= (props) => {
+const AccountSidebar= (props) => {
 
     return (
        <div className="col-lg-3">
@@ -21,8 +21,7 @@ const Slidebar= (props) => {
                 </li>
             </ul>
         </div>
-
     )
 }
 
-export default Slidebar;
+export default AccountSidebar;
