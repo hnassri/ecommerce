@@ -6,8 +6,7 @@ import { useAuth } from "../../../context/auth";
 
 const Category = (props) => {
     const [data,setData]=useState("");
-
-
+    const { token }= useAuth();
     useEffect(() => {
         getCategory();
     }, []);
@@ -23,6 +22,23 @@ const Category = (props) => {
             console.log(error.response)
         })
    
+    }
+    const handleRemoveCategory = (id) => {
+        const header = {
+            "Content-Type": "multipart/form-data",
+            "Authorization" : `Bearer ${token}`
+        };
+        axios.delete("/category/" + id, {headers: header})
+        .then(res => {
+            const data = res.data;
+            if(data.success === true){
+                getCategory();
+                alert(data.success.message);
+            }else{
+                console.log("Une erreur est survenue");
+            }
+        })
+        .catch((e)=>{alert('impossible de supprimer un category parent')})
     }
 
     return(
@@ -72,11 +88,9 @@ const Category = (props) => {
                                             <tbody>
                                                 {data.map((value) =>(
                                                         <tr>
-                                                            <td className="product-name"><a href="#">{value.name}</a></td>
+                                                            <td className="product-name"><Link to='/admin/category/create'>{value.name}</Link></td>
                                                             <td className="product_remove">
-                                                            <a href="#">
-                                                                <i className="pe-7s-close" data-tippy="Supprimer" data-tippy-inertia="true" data-tippy-animation="shift-away" data-tippy-delay={50} data-tippy-arrow="true" data-tippy-theme="sharpborder" />
-                                                            </a>
+                                                                <i className="pe-7s-close" data-tippy="Supprimer" data-tippy-inertia="true" data-tippy-animation="shift-away" data-tippy-delay={50} data-tippy-arrow="true" data-tippy-theme="sharpborder"  onClick={() => handleRemoveCategory(value.id)} />
                                                             </td>
                                                         </tr>
                                                         )
