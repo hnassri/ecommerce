@@ -6,8 +6,9 @@ import MyAccountForm from '../../components/MyAccount/MyAccountForm'
 import AccountSidebar from '../../components/MyAccount/AccountSidebar'
 import DefaultAccount from '../../components/MyAccount/DefaultAccount'
 import MyOrders from '../../components/MyAccount/MyOrders'
-import AdressBillingForm from '../../components/MyAccount/AdressBillingForm'
-import AdressForm from '../../components/MyAccount/AdressForm'
+import AdressBillingForm from '../../components/MyAccount/Adress/AdressBillingForm'
+import AdressForm from '../../components/MyAccount/Adress/AdressForm'
+import Adress from "../../components/MyAccount/Adress";
 
 const MyAccount = () => {
     
@@ -29,12 +30,7 @@ const MyAccount = () => {
                         <div className="tab-pane fade" id="account-address" role="tabpanel" aria-labelledby="account-address-tab">
                             <div className="row">
                             <div className="col-lg-12 col-12">
-                                <div >
-                                {/* Component adresses sauvegardées */}
-                                <AdressBillingForm/>
-                                {/* Component ajouter une adresse */}
-                                <AdressForm/>
-                                </div>
+                                <Adress/>
                             </div>
                             </div>
                         </div>

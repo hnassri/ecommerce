@@ -50,33 +50,23 @@ class AdressController extends AbstractController
        public function create(Request $request): Response
        {
          if($this->checkData($request) === true){
-         
           
-           $CheckAdress = $this->getDoctrine()->getRepository(Adress::class)->findBy(["adress" =>$request->get("adress"),"name" =>trim($request->get("name")),"surname" =>trim($request->get("surname"))]);
-     
-            if($CheckAdress){
-                return $this->json([
-                    "success" => false,
-                    "message" => "Please, This adress exist!"
-                ], 500);
-            }
-          
-           $entityManager = $this->getDoctrine()->getManager();
-           $Adress = new Adress();
-           $Adress->setName(trim($request->get("name")));
-           $Adress->setSurname(trim($request->get("surname")));
-           $Adress->setAdress($request->get("adress"));
-           $Adress->setCity(trim($request->get("city")));
-           $Adress->setPostalCode($request->get("postal_code"));
-           $Adress->setCountry($request->get("country"));
-           $Adress->setUserId($request->attributes->get('infotoken')['id']);
-           $entityManager->persist($Adress);
-           if($entityManager->flush() !== false){
-               return $this->json([
-                   "success" => true,
-                   "message" => "Adress created!"
-               ], 200);
-           }
+            $entityManager = $this->getDoctrine()->getManager();
+            $Adress = new Adress();
+            $Adress->setName(trim($request->get("name")));
+            $Adress->setSurname(trim($request->get("surname")));
+            $Adress->setAdress($request->get("adress"));
+            $Adress->setCity(trim($request->get("city")));
+            $Adress->setPostalCode($request->get("postal_code"));
+            $Adress->setCountry($request->get("country"));
+            $Adress->setUserId($request->attributes->get('infotoken')['id']);
+            $entityManager->persist($Adress);
+                if($entityManager->flush() !== false){
+                    return $this->json([
+                        "success" => true,
+                        "message" => "Adress created!"
+                    ], 200);
+                }
            }
 
            return $this->json([
