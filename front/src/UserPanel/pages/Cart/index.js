@@ -4,8 +4,8 @@ import BreadCrumb from "../../components/BreadCrumb"
 import CoatsCart from "../../components/CostsCart"
 import CouponCart from "../../components/CouponCart"
 import TableCart from "../../components/TableCart"
+import { useCart } from "react-use-cart";
 const Cart = () => {
-    
     return (
        <div className="main-content">
             <div className="cart-area section-space-y-axis-100">
