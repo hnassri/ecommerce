@@ -1,9 +1,10 @@
-import React from "react";
+import React ,{useState}from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../../context/auth";
 
 const Navbar = (props) => {
     const { user, logout } = useAuth();
+
     return (
         <header className="main-header-area">
         {/* Navbar */}
@@ -23,11 +24,12 @@ const Navbar = (props) => {
                                                 <i className="pe-7s-users"></i>
                                             </button>
                                             <ul className="dropdown-menu" aria-labelledby="settingButton">
+                                                
                                                 {
                                                     user ?
                                                         <>
                                                             {user.role.includes("ROLE_ADMIN") ? 
-                                                                <li><Link to="/" onClick={() => {props.panelAdmin(true)}} className="dropdown-item">Administration</Link></li>
+                                                                <li><Link to="/admin" className="dropdown-item">Administration</Link></li>
                                                             : 
                                                                 null
                                                             }
@@ -115,7 +117,7 @@ const Navbar = (props) => {
                                                     user ?
                                                         <>
                                                             { user.role.includes("ROLE_ADMIN") ? 
-                                                                <li><Link to="/" onClick={() => {props.panelAdmin(true)}} className="dropdown-item">Administration</Link></li>
+                                                                <li><Link to="/admin"  className="dropdown-item">Administration</Link></li>
                                                             : 
                                                                 null
                                                             }

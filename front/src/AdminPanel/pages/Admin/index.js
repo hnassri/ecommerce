@@ -12,22 +12,22 @@ const Admin = (props) => {
             <div className="account-page-area section-space-y-axis-100">
                 <div className="container">
                     <div className="row">
-                    {/* Sidebar */}
-                    <SlideBar/>
-                    <div className="col-lg-9">
-                        <div className="tab-content myaccount-tab-content" id="account-page-tab-content">
-                        {/* Component Administration */}
-                        <DefaultAdmin/>
-                        {/* Component Produit*/}
-                        <Product/>
-                        {/* Component catégories */}
-                        <Category/>
-                        {/* Component utilisateurs */}
-                        <User/>
+                        {/* Sidebar */}
+                        <SlideBar/>
+                        <div className="col-lg-9">
+                            <div className="tab-content myaccount-tab-content" id="account-page-tab-content">
+                            {/* Component Administration */}
+                            <DefaultAdmin/>
+                            {/* Component Produit*/}
+                            <Product/>
+                            {/* Component catégories */}
+                            <Category/>
+                            {/* Component utilisateurs */}
+                            <User/>
+                            </div>
                         </div>
                     </div>
-                    </div>
-                </div>
+                </div>       
             </div>
         </div>
 

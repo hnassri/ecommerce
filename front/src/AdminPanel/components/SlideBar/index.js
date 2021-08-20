@@ -7,7 +7,7 @@ const SlideBar = (props) => {
     <div className="col-lg-3">
         <ul className="nav myaccount-tab-trigger" id="account-page-tab" role="tablist">
             <li className="nav-item">
-                < a className="nav-link active" id="account-dashboard-tab" data-bs-toggle="tab" href="#account-dashboard" role="tab" aria-controls="account-dashboard" aria-selected="true">Administration</a>
+                <a className="nav-link active" id="account-dashboard-tab" data-bs-toggle="tab" href="#account-dashboard" role="tab" aria-controls="account-dashboard" aria-selected="true">Administration</a>
             </li>
             <li className="nav-item">
                 <a className="nav-link" id="account-orders-tab" data-bs-toggle="tab" href="#account-orders" role="tab" aria-controls="account-orders" aria-selected="false">Gérer les produits</a>
@@ -17,9 +17,6 @@ const SlideBar = (props) => {
             </li>
             <li className="nav-item">
                 <a className="nav-link" id="account-details-tab" data-bs-toggle="tab" href="#account-details" role="tab" aria-controls="account-details" aria-selected="false">Gérer les utilisateurs</a>
-            </li>
-            <li className="nav-item">
-                <a className="nav-link" id="account-logout-tab" href="#" role="tab" aria-selected="false">Exporter CSV</a>
             </li>
         </ul>
     </div>
