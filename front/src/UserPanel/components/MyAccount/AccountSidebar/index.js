@@ -17,7 +17,7 @@ const AccountSidebar= (props) => {
                 <a className="nav-link" id="account-address-tab" data-bs-toggle="tab" href="#account-address" role="tab" aria-controls="account-address" aria-selected="false">Adresse de facturation</a>
                 </li>
                 <li className="nav-item">
-                <a className="nav-link" id="account-details-tab" data-bs-toggle="tab" href="#account-details" role="tab" aria-controls="account-details" aria-selected="false">Détails du compte</a>
+                <a className="nav-link" id="account-details-tab" data-bs-toggle="tab" href="#account-details" role="tab" aria-controls="account-details" aria-selected="false">Changer de mot de passe</a>
                 </li>
             </ul>
         </div>
