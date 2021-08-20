@@ -1,6 +1,6 @@
 <!-- Component catégories -->
 <div class="tab-pane fade" id="account-address" role="tabpanel" aria-labelledby="account-address-tab">
-    <div class="p-4">
+    <div class="mb-3">
         <h2 class="widgets-title mb-4">Catégories</h2>
             <div class="widgets-searchbox">
                 <form id="widgets-searchbox">
@@ -19,13 +19,19 @@
                         </select>
                     </li>
                     <li class="short">
-                        <input class="cart_btn" value="Actualiser" type="submit">
+                        <input class="btn btn-outline-secondary" value="Actualiser" type="submit">
                     </li>
                     <li class="short">
-                        <input class="cart_btn" value="Créer une catégorie" type="submit">
+                        <input class="btn btn-outline-secondary" value="Créer une catégorie" type="submit">
                     </li>
                 </ul>
             </div>
+    </div>
+    <div class="widgets-searchbox">
+        <form id="widgets-searchbox">
+            <input class="input-field mb-3" type="text" placeholder="Nom de la catégorie"></input>
+            <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Créer la catégorie</button>
+        </form>
     </div>
     <div class="cart-area">
         <div class="container">
@@ -43,6 +49,21 @@
                                 <tbody>
                                     <tr>
                                         <td class="product-name"><a href="#">Nom (À Définir)</a></td>
+                                        <td class="product_remove">
+                                            <a href="#">
+                                                <i class="pe-7s-close" data-tippy="Supprimer" data-tippy-inertia="true"
+                                            data-tippy-animation="shift-away" data-tippy-delay="50"
+                                            data-tippy-arrow="true" data-tippy-theme="sharpborder"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="product-name">
+                                            <div class="input-group mb-3">
+                                                <input type="text" class="form-control" placeholder="Nom de la catégorie (À Récupérer)" aria-label="Example text with button addon" aria-describedby="button-addon1">
+                                                <button class="btn btn-outline-secondary" type="button" id="button-addon1">Sauvegarder</button>
+                                            </div>
+                                        </td>
                                         <td class="product_remove">
                                             <a href="#">
                                                 <i class="pe-7s-close" data-tippy="Supprimer" data-tippy-inertia="true"
