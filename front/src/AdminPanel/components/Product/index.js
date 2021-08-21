@@ -1,8 +1,55 @@
-import React from "react";
-
-
+import React, { useEffect,useState } from "react";
+import { Link } from 'react-router-dom';
+import axios from '../../../axios/axios';
+import { useAuth } from "../../../context/auth";
+import ProductDetailAdmin from '../Product/ProductDetailAdmin'
 
 const Product = (props) => {
+    const { token } = useAuth();
+    const [stock, setStock] = useState("");
+    const [isInStock, setisInStock] = useState(false);
+    const [articles, setArticles] = useState([]);
+    const getArticles = () => {
+        axios.get("/article")
+        .then(res => {
+            if(res.data.success === true){
+                setArticles(res.data.items);
+            }
+        })
+        .catch(e => {
+            if(e.response !== undefined){
+                if(e.response.data.success === false){
+                    console.log(e.response.data.message);
+                }
+            }else{
+                console.log("An error occured");
+            }   
+        })
+    }
+    const handleRemoveProduct = (id) => {
+        const header = {
+            "Content-Type": "multipart/form-data",
+            "Authorization" : `Bearer ${token}`
+        };
+        axios.delete("/article/" + id, {headers: header})
+        .then(res => {
+            const data = res.data;
+            if(data.success === true){
+                getArticles();
+                alert("Vous venez d'effacer un article");
+            }else{
+                console.log("Une erreur est survenue");
+            }
+        })
+    }
+
+    useEffect(() => {
+        getArticles();
+    }, []);
+
+   
+
+
     return(
       <div className="tab-pane fade" id="account-orders" role="tabpanel" aria-labelledby="account-orders-tab">
             <div className="p-4">
@@ -31,10 +78,7 @@ const Product = (props) => {
                         </select>
                     </li>
                     <li className="short">
-                        <input className="cart_btn" defaultValue="Actualiser" type="submit" />
-                    </li>
-                    <li className="short">
-                        <input className="cart_btn" defaultValue="Créer un produit" type="submit" />
+                        <Link to="/admin/create/product">CREER UN PRODUIT</Link>
                     </li>
                 </ul>
                 </div>
@@ -45,45 +89,22 @@ const Product = (props) => {
                         <div className="col-12">
                             <form>
                                 <div className="table-content table-responsive">
+                                 
                                     <table className="table">
                                         <thead>
                                         <tr>
                                             <th className="cart-product-name">Nom</th>
                                             <th className="product-price">Status</th>
                                             <th className="product-quantity">Changement Stock</th>
-                                            <th className="product-quantity">Quantités</th>
                                             <th className="product-subtotal">Prix</th>
                                             <th className="product_remove">Supprimer</th>
                                         </tr>
                                         </thead>
-                                        <tbody>
-                                        <tr>
-                                            <td className="product-name"><a href="#">Nom (À Définir)</a></td>
-                                            <td className="product-name">Status stock (À Définir)</td>
-                                            <td className="product-name">
-                                                <input className="cart_btn" defaultValue="Hors stock" type="submit" />
-                                                {/* <input class="cart_btn" value="En stock" type="submit"> */}
-                                            </td>
-                                            <td className="quantity">
-                                            <div className="cart-plus-minus">
-                                                <input className="cart-plus-minus-box" defaultValue={1} type="text" />
-                                                <div className="dec qtybutton">
-                                                    <i className="fa fa-minus" />
-                                                </div>
-                                                <div className="inc qtybutton">
-                                                    <i className="fa fa-plus" />
-                                                </div>
-                                            </div>
-                                            </td>
-                                            <td className="product-subtotal"><span className="amount">Prix (À Définir)</span></td>
-                                            <td className="product_remove">
-                                                <a href="#">
-                                                    <i className="pe-7s-close" data-tippy="Supprimer" data-tippy-inertia="true" data-tippy-animation="shift-away" data-tippy-delay={50} data-tippy-arrow="true" data-tippy-theme="sharpborder" />
-                                                </a>
-                                            </td>
-                                        </tr>
-                                        </tbody>
+                                        {articles.map((value, index) => {
+                                                return <ProductDetailAdmin article={value} remove={handleRemoveProduct} key={index} {...props} />
+                                            })}
                                     </table>
+                                 
                                 </div>
                             </form>
                         </div>

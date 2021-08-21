@@ -10,7 +10,10 @@ import Product from './UserPanel/pages/Product/index'
 import Cart from './UserPanel//pages/Cart'
 import { useAuth } from "./context/auth";
 import MyAccount from './UserPanel/pages/MyAccount/index'
-import Admin from './AdminPanel/pages/Admin'
+import Admin from './AdminPanel/pages/Admin';
+import ProductCreate from './AdminPanel/components/Product/ProductCreate';
+import UserUpdate from './AdminPanel/components/Users/UserUpdate';
+import UserCreate from './AdminPanel/components/Users/UserCreate';
 
 const App = (props) => {
     const { user } = useAuth();  
@@ -33,10 +36,13 @@ const AuthenticatedApp = (props) => {
                     {/* Authenticated Route */}
                     <Route path="/my-account" component={MyAccount}/>
                     
+                    
                     {/* Admin Route */}
                     {user.role.includes("ROLE_ADMIN") ? 
                         <>
                             <Route exact path="/admin" component={Admin}/>
+                            <Route path="/admin/create/product" component={ProductCreate}/>
+                            <Route path="/admin/create/user" component={UserCreate}/>
                         </>
                         : null
                     }

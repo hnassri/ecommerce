@@ -9,6 +9,7 @@ import User from '../../components/Users'
 const Admin = (props) => {
     return(
         <div className="main-content">
+            
             <div className="account-page-area section-space-y-axis-100">
                 <div className="container">
                     <div className="row">

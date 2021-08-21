@@ -1,8 +1,51 @@
-import React from "react";
-
+import { Link } from 'react-router-dom';
+import axios from '../../../axios/axios';
+import { useAuth } from "../../../context/auth";
+import React, { useEffect,useState } from "react";
+import UserDetail from './UserDetail'
 
 
 const Users = (props) => {
+    const { token } = useAuth();
+    const [users, setUsers] = useState([]);
+    const getUsers = () => {
+        const header = {
+            "Content-Type": "multipart/form-data",
+            "Authorization" : `Bearer ${token}`
+        };
+        axios.get("/api/v1/user/all", {headers: header})
+        .then(res => {
+            const data = res.data;
+            if(data.success === true){
+                setUsers(data.data.map((value, index) => {
+                        return <UserDetail user={value} remove={handleRemoveUser} key={index} {...props} />
+                    })
+                    );
+            }
+        })
+    }
+
+    const handleRemoveUser = (id) => {
+        const header = {
+            "Content-Type": "multipart/form-data",
+            "Authorization" : `Bearer ${token}`
+        };
+        axios.delete("/api/v1/user/delete/" + id, {headers: header})
+        .then(res => {
+            const data = res.data;
+            if(data.success === true){
+                getUsers();
+                
+
+            }else{
+                console.log("Une erreur est survenue");
+            }
+        })
+    }
+    useEffect(() => {
+        getUsers();
+    }, []);
+
     return(
        <div className="tab-pane fade" id="account-details" role="tabpanel" aria-labelledby="account-details-tab">
             <div className="p-4">
@@ -24,7 +67,7 @@ const Users = (props) => {
                             </select>
                         </li>
                         <li className="short">
-                            <input className="cart_btn" defaultValue="Actualiser" type="submit" />
+                        <Link to="/admin/create/user">CREER UN UTILISATEUR</Link>
                         </li>
                     </ul>
                 </div>
@@ -43,17 +86,7 @@ const Users = (props) => {
                                                 <th className="product_remove">Supprimer</th>
                                             </tr>
                                         </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td className="product-name"><a href="#">E-mail (À Définir)</a></td>
-                                                <td className="product-name"><a href="#">Rôles (À Définir)</a></td>
-                                                <td className="product_remove">
-                                                    <a href="#">
-                                                        <i className="pe-7s-close" data-tippy="Supprimer" data-tippy-inertia="true" data-tippy-animation="shift-away" data-tippy-delay={50} data-tippy-arrow="true" data-tippy-theme="sharpborder" />
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                        </tbody>
+                                    {users}
                                     </table>
                                 </div>
                             </form>
