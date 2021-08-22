@@ -1,10 +1,35 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from 'react-router-dom';
+import { useParams } from "react-router";
+import { useCart } from "react-use-cart";
 import axios from "../../../axios/axios";
 
 const ProductShow = (props) => {
 
-   const article = props.article;
+    const { addItem }= useCart();
+    const [quantity, setQuantity] = useState(1);
+    const { id } = useParams();
+
+    const getArticle = (id) => {
+        axios.get("/article/" + id)
+        .then(res => {
+            console.log(res)
+            if(res.data.success === true){
+                setArticle(res.data.item[0]);
+                if(res.data.item[0].images[0]){
+                    setImage("http://localhost:8000" + res.data.item[0].images[0].url)
+                }
+            }else{
+                alert("Une erreur est survenue")
+            }
+        })
+    }
+
+    const [article, setArticle] = useState('');
+    const [image, setImage] = useState('');
+
+    useEffect(() => {
+        getArticle(id);
+    }, [])
 
     return (
 
@@ -37,19 +62,9 @@ const ProductShow = (props) => {
                             <div className="thumbs-arrow-holder">
                                 <div className="swiper-container single-product-thumbs">
                                     <div className="swiper-wrapper">
-                                        <a href="#" className="swiper-slide">
-                                        <img className="img-full"  src={"http://localhost:8000" + article.images} alt="Product Thumnail" />
-                                        </a>
-
-                                    </div>
-                                    {/* Add Arrows */}
-                                    <div className=" thumbs-button-wrap d-none d-md-block">
-                                        <div className="thumbs-button-prev">
-                                        <i className="pe-7s-angle-left" />
-                                        </div>
-                                        <div className="thumbs-button-next">
-                                        <i className="pe-7s-angle-right" />
-                                        </div>
+                                        <span className="swiper-slide">
+                                        <img className="img-full"  src={image} alt="Product Thumnail" />
+                                        </span>
                                     </div>
                                 </div>
                             </div>
@@ -79,22 +94,24 @@ const ProductShow = (props) => {
                             <ul className="quantity-with-btn">
                                 <li className="quantity">
                                 <div className="cart-plus-minus">
-                                    <input className="cart-plus-minus-box" defaultValue={1} type="text" />
+                                    <input className="cart-plus-minus-box" value={quantity} type="text" />
+                                    <div className="dec qtybutton">
+                                        <i className="fa fa-minus" onClick={e => {
+                                            if(quantity > 1){
+                                                setQuantity(quantity - 1)
+                                            }
+                                        }} />
+                                    </div>
+                                    <div className="inc qtybutton">
+                                        <i className="fa fa-plus" onClick={e => setQuantity(quantity + 1)} />
+                                    </div>
                                 </div>
                                 </li>
                                 <li className="add-to-cart">
-                                <a className="btn btn-custom-size lg-size btn-webshop-primary" href="cart.html">Add to
-                                    cart</a>
-                                </li>
-                                <li className="wishlist-btn-wrap">
-                                <a className="custom-circle-btn" href="wishlist.html">
-                                    <i className="pe-7s-like" />
-                                </a>
-                                </li>
-                                <li className="compare-btn-wrap">
-                                <a className="custom-circle-btn" href="compare.html">
-                                    <i className="pe-7s-refresh-2" />
-                                </a>
+                                <button className="btn btn-custom-size lg-size btn-webshop-primary" onClick={e => {
+                                    addItem(article, quantity);
+                                    alert("Ce produit a bien été ajouter au panier");
+                                }}>Ajouter au panier</button>
                                 </li>
                             </ul>
                             <ul className="service-item-wrap">
@@ -103,7 +120,7 @@ const ProductShow = (props) => {
                                     <img src="/assets/images/shipping/icon/car.png" alt="Shipping Icon" />
                                 </div>
                                 <div className="service-content">
-                                    <span className="title">Free <br /> Shipping</span>
+                                    <span className="title">Fast <br /> Shipping</span>
                                 </div>
                                 </li>
                                 <li className="service-item">
@@ -114,20 +131,12 @@ const ProductShow = (props) => {
                                     <span className="title">Safe <br /> Payment</span>
                                 </div>
                                 </li>
-                                <li className="service-item">
-                                <div className="service-img">
-                                    <img src="/assets/images/shipping/icon/service.png" alt="Shipping Icon" />
-                                </div>
-                                <div className="service-content">
-                                    <span className="title">Safe <br /> Payment</span>
-                                </div>
-                                </li>
                             </ul>
                             <div className="product-category">
-                                <span className="title">Caracteristiques :</span>
+                                <span className="title">Caractéristiques :</span>
                                     <ul>
                                         <li>
-                                            <a href="#">{article.features}</a>
+                                            <span>{article.features}</span>
                                         </li>
                                     </ul>
                             </div>

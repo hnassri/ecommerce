@@ -1,9 +1,11 @@
 import React ,{useState}from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../../context/auth";
+import { useCart } from "react-use-cart";
 
 const Navbar = (props) => {
     const { user, logout } = useAuth();
+    const { cartTotal, totalUniqueItems } = useCart();
 
     return (
         <header className="main-header-area">
@@ -45,8 +47,10 @@ const Navbar = (props) => {
                                         </li>
                                         <li className="minicart-wrap me-3 me-lg-0">
                                             <Link to="/cart" className="minicart-btn toolbar-btn">
-                                                <i className="pe-7s-shopbag"></i>
-                                                <span className="quantity">3</span>
+                                                <div>
+                                                    <i className="pe-7s-shopbag"></i>
+                                                    <span className="quantity">{totalUniqueItems}</span>
+                                                </div>
                                             </Link>
                                         </li>
                                         <li className="mobile-menu_wrap d-block d-lg-none">
@@ -61,24 +65,7 @@ const Navbar = (props) => {
                     </div>
                 </div>
             </div>
-            <div className="header-bottom d-none d-lg-block">
-                <div className="container">
-                    <div className="row">
-                        <div className="col-lg-12">
-                            <div className="main-menu position-relative">
-                                <nav className="main-nav">
-                                    <ul>
-                                        <li><Link to="#">Lien</Link></li>
-                                        <li><Link to="#">Lien</Link></li>
-                                        <li><Link to="#">Lien</Link></li>
-                                        <li><Link to="#">Lien</Link></li>
-                                    </ul>
-                                </nav>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            
             {/* Fixed Navbar End */}
 
 
@@ -94,16 +81,7 @@ const Navbar = (props) => {
                                 </Link>
                             </div>
                             <div className="col-lg-6 d-none d-lg-block">
-                                <div className="main-menu">
-                                    <nav className="main-nav">
-                                        <ul>
-                                            <li><Link to="#">Lien</Link></li>
-                                            <li><Link to="#">Lien</Link></li>
-                                            <li><Link to="#">Lien</Link></li>
-                                            <li><Link to="#">Lien</Link></li>
-                                        </ul>
-                                    </nav>
-                                </div>
+                                
                             </div>
                             <div className="col-lg-3 col-6">
                                 <div className="header-right">
@@ -134,7 +112,7 @@ const Navbar = (props) => {
                                         <li className="minicart-wrap me-3 me-lg-0">
                                             <Link to="/cart" className="minicart-btn toolbar-btn">
                                                 <i className="pe-7s-shopbag"></i>
-                                                <span className="quantity">3</span>
+                                                <span className="quantity">{totalUniqueItems}</span>
                                             </Link>
                                         </li>
                                         <li className="mobile-menu_wrap d-block d-lg-none">

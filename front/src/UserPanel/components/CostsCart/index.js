@@ -1,8 +1,10 @@
-import axios from "../../../axios/axios";
 import React, { useEffect, useState } from "react";
-import BreadCrumb from "../../components/BreadCrumb"
+import { useCart } from "react-use-cart";
+import { Link } from "react-router-dom";
 
 const CoatsCart = () => {
+
+    const { cartTotal } = useCart();
     
     return (
         <form>
@@ -11,10 +13,10 @@ const CoatsCart = () => {
                     <div className="cart-page-total">
                         <h2>Récapitulatif</h2>
                         <ul>
-                        <li>Frais de port <span>0.30€</span></li>
-                        <li>Prix total <span>30.50€</span></li>
+                        {/*<li>Frais de port <span>0.30€</span></li>*/}
+                        <li>Prix total <span>{cartTotal}</span></li>
                         </ul>
-                        <a href="#">Procéder au paiement</a>
+                        <Link to="#">Procéder au paiement</Link>
                     </div>
                 </div>
             </div>

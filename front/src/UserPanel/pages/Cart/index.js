@@ -14,8 +14,9 @@ const Cart = () => {
                         <div className="col-12">
                         {/* Tableau panier */}
                         <TableCart/>
-                        {/* Coupon panier (Optionnel) */}
+                        {/* Coupon panier (Optionnel) 
                         <CouponCart/>
+                        */}
                         {/* Frais panier */}
                         <CoatsCart/>
                         </div>
