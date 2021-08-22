@@ -35,7 +35,7 @@ const Users = (props) => {
             const data = res.data;
             if(data.success === true){
                 getUsers();
-                
+                alert('utilisateur supprimé avec succés')
 
             }else{
                 console.log("Une erreur est survenue");

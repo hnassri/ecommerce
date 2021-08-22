@@ -46,7 +46,7 @@ const ProductDetailAdmin = (props) => {
     return (
          <tbody>                            
          <tr>
-            <td className="product-name"><a href="#">{article.name}</a></td>
+            <td className="product-name"><Link to={`/admin/product/edit/${article.id}`}>{article.name}</Link></td>
             <td className="product-name">{stock} </td>
             <td>
                 {stock === 'empty' ?
@@ -57,7 +57,7 @@ const ProductDetailAdmin = (props) => {
             </td>
             <td className="product-subtotal"><span className="amount">{article.price}</span></td>
             <td className="product_remove">
-                <i className="pe-7s-close" data-tippy="Supprimer" data-tippy-inertia="true" data-tippy-animation="shift-away" data-tippy-delay={50} data-tippy-arrow="true" data-tippy-theme="sharpborder" onClick={() => {props.remove(article.id)}}/>            
+                <i className="pe-7s-close cursor-pointer" data-tippy="Supprimer" data-tippy-inertia="true" data-tippy-animation="shift-away" data-tippy-delay={50} data-tippy-arrow="true" data-tippy-theme="sharpborder" onClick={() => {props.remove(article.id)}}/>            
             </td>
          </tr>
      </tbody>

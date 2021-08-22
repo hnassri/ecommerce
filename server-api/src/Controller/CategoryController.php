@@ -126,4 +126,20 @@ class CategoryController extends AbstractController
             "message" => "Category deleted!"
         ], 200);
     }
+    #[Route('/category/info/{id}', name: 'category_info', methods: "GET")]
+    public function info_category(int $id)
+    {
+        $category = $this->getDoctrine()->getRepository(Category::class)->findOneBy(["id" =>$id]);
+        if(!$category){
+            return $this->json([
+                "success" => false,
+                "message" => "This Category doesn't exist!"
+            ], 403);
+        }
+        return $this->json([
+            "success" => true,
+            "data" => $category->getName()
+
+        ], 200);
+    }
 }

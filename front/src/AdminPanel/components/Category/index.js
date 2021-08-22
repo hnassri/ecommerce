@@ -33,12 +33,12 @@ const Category = (props) => {
             const data = res.data;
             if(data.success === true){
                 getCategory();
-                alert(data.success.message);
+                alert('Catégorie supprimé avec succés');
             }else{
                 console.log("Une erreur est survenue");
             }
         })
-        .catch((e)=>{alert('impossible de supprimer un category parent')})
+        .catch((e)=>{alert('impossible de supprimer un catégorie parent')})
     }
 
     return(
@@ -62,10 +62,7 @@ const Category = (props) => {
                             </select>
                         </li>
                         <li className="short">
-                            <input className="cart_btn" defaultValue="Actualiser" type="submit" />
-                        </li>
-                        <li className="short">
-                            <input className="cart_btn" defaultValue="Créer une catégorie" type="submit" />
+                        <Link to='/admin/category/create'>Creer un catégorie</Link>
                         </li>
                     </ul>
                 </div>
@@ -88,9 +85,9 @@ const Category = (props) => {
                                             <tbody>
                                                 {data.map((value) =>(
                                                         <tr>
-                                                            <td className="product-name"><Link to='/admin/category/create'>{value.name}</Link></td>
+                                                            <td className="product-name"><Link to={`/admin/category/edit/${value.id}`}>{value.name}</Link></td>
                                                             <td className="product_remove">
-                                                                <i className="pe-7s-close" data-tippy="Supprimer" data-tippy-inertia="true" data-tippy-animation="shift-away" data-tippy-delay={50} data-tippy-arrow="true" data-tippy-theme="sharpborder"  onClick={() => handleRemoveCategory(value.id)} />
+                                                                <i className="pe-7s-close cursor-pointer" data-tippy="Supprimer" data-tippy-inertia="true" data-tippy-animation="shift-away" data-tippy-delay={50} data-tippy-arrow="true" data-tippy-theme="sharpborder"  onClick={() => handleRemoveCategory(value.id)} />
                                                             </td>
                                                         </tr>
                                                         )
@@ -99,7 +96,7 @@ const Category = (props) => {
                                             </tbody>  
                                     </table>
                                      :
-                                     <p>Aucun Categorie</p>
+                                     <p>Aucun Catégorie</p>
                                     }
                                 </div>
                             </form>

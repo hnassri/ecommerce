@@ -46,6 +46,7 @@ class AuthAuthenticator extends AbstractAuthenticator
                 case 'admin_show':
                 case 'delete_user':
                 case 'article_instock':
+                case 'category_info':
                     // only admin roles can access to api
                     return $this->check_authorization($request, ['ROLE_ADMIN']);
                 case 'user_update':

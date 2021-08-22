@@ -5,16 +5,18 @@ import Navbar from './UserPanel/components/Navbar';
 import Login from './UserPanel/pages/Login';
 import Register from './UserPanel/pages/Register';
 import Shop from './UserPanel/pages/Shop';
-import Page404 from './UserPanel/pages/404/index'
-import Product from './UserPanel/pages/Product/index'
+import Page404 from './UserPanel/pages/404/index';
+import Product from './UserPanel/pages/Product/index';
 import Cart from './UserPanel//pages/Cart'
 import { useAuth } from "./context/auth";
-import MyAccount from './UserPanel/pages/MyAccount/index'
+import MyAccount from './UserPanel/pages/MyAccount/index';
 import Admin from './AdminPanel/pages/Admin';
 import ProductCreate from './AdminPanel/components/Product/ProductCreate';
-import UserUpdate from './AdminPanel/components/Users/UserUpdate';
 import UserCreate from './AdminPanel/components/Users/UserCreate';
-
+import CategoryCreate from './AdminPanel/components/Category/CategoryCreate';
+import UserUpdate from'./AdminPanel/components/Users/UserUpdate';
+import CategoryUpdate from './AdminPanel/components/Category/CategoryUpdate';
+import ProductUpdate from './AdminPanel/components/Product/ProductUpdate';
 const App = (props) => {
     const { user } = useAuth();  
     return user ? <AuthenticatedApp {...props} /> : <UnauthenticatedApp {...props}/>
@@ -43,6 +45,10 @@ const AuthenticatedApp = (props) => {
                             <Route exact path="/admin" component={Admin}/>
                             <Route path="/admin/create/product" component={ProductCreate}/>
                             <Route path="/admin/create/user" component={UserCreate}/>
+                            <Route path="/admin/category/create" component={CategoryCreate}/>
+                            <Route path="/admin/user/edit/:id" component={UserUpdate}/>
+                            <Route path="/admin/category/edit/:id" component={CategoryUpdate}/>
+                            <Route path="/admin/product/edit/:id" component={ProductUpdate}/>
                         </>
                         : null
                     }
