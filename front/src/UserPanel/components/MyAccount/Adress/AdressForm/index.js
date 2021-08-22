@@ -1,55 +1,60 @@
 import React, { useState,useEffect } from "react";
 import { Link } from 'react-router-dom';
-import { useAuth } from "../../../../context/auth";
-import axios from "../../../../axios/axios";
-import axioss from 'axios'
+import { useAuth } from "../../../../../context/auth";
+import MyAxios from "../../../../../axios/axios";
+import axios from 'axios'
+
 const AdressForm= (props) => {
-const [name, setName] = useState("");
-const [surname, setSurname] = useState("");
-const [adress, setAdress] = useState("");
-const [city, setCity] = useState("");
-const [postal_code, setPostal_Code] = useState("");
-const [country, setCountry] = useState("");
-const { token }=useAuth();
-const [data, setData] = useState("");
+    const [name, setName] = useState("");
+    const [surname, setSurname] = useState("");
+    const [adress, setAdress] = useState("");
+    const [city, setCity] = useState("");
+    const [postal_code, setPostal_Code] = useState("");
+    const [country, setCountry] = useState("");
+    const { token }=useAuth();
+    const [data, setData] = useState("");
 
-useEffect(() => {
-    axioss.get('https://restcountries.eu/rest/v2/all')
-    .then(res => {
-        setData(
-        res.data.map((user) => (
-            <option value={user.name}>{user.name}</option>
-        ))
-        )
-    })
-    .catch((error) => {
-        console.log(error.response)
-    })
-}, []);
-const handlesubmit = (e) =>{
-    e.preventDefault();
-    let formData = new FormData();
-    formData.append("name", name);
-    formData.append("surname", surname);
-    formData.append("adress", adress);
-    formData.append("city", city);
-    formData.append("postal_code", postal_code);
-    formData.append("country", country);
-    const header= { 
-            "Content-Type": "multipart/form-data",
-            "Authorization" : `Bearer ${token}`
-    };
-    axios.post('/adress/create',formData,{headers:header})
-    .then(res => {
-        alert(res.data.message)
-    })
-    .catch((error) => {
-        alert(error.response.data.message)
-    })
-   
-}
-
-
+    useEffect(() => {
+        axios.get('https://restcountries.eu/rest/v2/all')
+        .then(res => {
+            setData(
+            res.data.map((user) => (
+                <option value={user.name}>{user.name}</option>
+            ))
+            )
+        })
+        .catch((error) => {
+            console.log(error.response)
+        })
+    }, []);
+    const handlesubmit = (e) =>{
+        e.preventDefault();
+        let formData = new FormData();
+        formData.append("name", name);
+        formData.append("surname", surname);
+        formData.append("adress", adress);
+        formData.append("city", city);
+        formData.append("postal_code", postal_code);
+        formData.append("country", country);
+        const header= { 
+                "Content-Type": "multipart/form-data",
+                "Authorization" : `Bearer ${token}`
+        };
+        MyAxios.post('/adress/create',formData,{headers:header})
+        .then(res => {
+            if(res.data.success === true){
+                props.getAdress();
+                alert(res.data.message)
+            }else{
+                alert("Un problème est survenu. Merci de réessayer.")
+            }
+            
+        })
+        .catch((error) => {
+            alert(error.response.data.message)
+        })
+    
+    }
 
     return (
        <form onSubmit={handlesubmit}>
@@ -107,8 +112,6 @@ const handlesubmit = (e) =>{
                 </div>
             </div>
         </form>
-
-
     )
 }
 

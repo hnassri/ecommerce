@@ -1,9 +1,9 @@
-import axios from "../../../axios/axios";
-import React, { useEffect, useState } from "react";
-import BreadCrumb from "../../components/BreadCrumb"
+import React, { useState } from "react";
+import { useCart } from "react-use-cart";
+import CartTab from "../CartTab";
 
 const TableCart = () => {
-    
+    const { items, isEmpty } = useCart();
     return (
         <form>
             <div className="table-content table-responsive">
@@ -19,32 +19,10 @@ const TableCart = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                        <td className="product_remove">
-                            <a href="#">
-                                <i className="pe-7s-close" data-tippy="Supprimer" data-tippy-inertia="true" data-tippy-animation="shift-away" data-tippy-delay={50} data-tippy-arrow="true" data-tippy-theme="sharpborder" />
-                            </a>
-                        </td>
-                        <td className="product-thumbnail">
-                            <a href="#">
-                                <img src="assets/images/product/small-size/1-1-112x124.png" alt="Image produit" />
-                            </a>
-                        </td>
-                        <td className="product-name"><a href="#">Produit 1</a></td>
-                        <td className="product-price"><span className="amount">30.20€</span></td>
-                        <td className="quantity">
-                            <div className="cart-plus-minus">
-                                <input className="cart-plus-minus-box" defaultValue={1} type="text" />
-                            <div className="dec qtybutton">
-                                <i className="fa fa-minus" />
-                            </div>
-                            <div className="inc qtybutton">
-                                <i className="fa fa-plus" />
-                            </div>
-                            </div>
-                        </td>
-                        <td className="product-subtotal"><span className="amount">30.20€</span></td>
-                        </tr>
+                        {isEmpty ? "Votre panier est vide"
+                            : 
+                            items.map((value, index) => <CartTab key={index} item={value}/>)
+                        }
                     </tbody>
                 </table>
             </div>
