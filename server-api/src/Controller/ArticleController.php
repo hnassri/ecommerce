@@ -299,7 +299,7 @@ class ArticleController extends AbstractController
 
     protected function getImages(Article $article)
     {
-        $images = $this->getDoctrine()->getRepository(Image::class)->findBy(["uuid" => $article->getUuid()]);
+        $images = $this->getDoctrine()->getRepository(Image::class)->findBy(["article_id" => $article->getId()]);
         $images_tab = [];
         foreach($images as $image){
             if(file_exists($this->getParameter('images_directory') . substr($image->getUrl(),8))){
