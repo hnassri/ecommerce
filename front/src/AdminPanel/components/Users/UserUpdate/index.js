@@ -73,6 +73,9 @@ const UserUpdate= (props) => {
         <div className="container">
             <div className="row">
                 <div className="col-lg-6 offset-md-3">
+                    <div className="price-box">
+                        <Link to="/admin">&larr; Retour</Link>
+                    </div>
                     <form onSubmit={handleSubmit}>
                         <div className="login-form">
                             <h4 className="login-title">MODIFICATION D'UN UTILISATEUR</h4>
