@@ -1,7 +1,7 @@
 import axios from '../../../../axios/axios';
 import { useAuth } from "../../../../context/auth";
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 function checkData(data){
     data.forEach(element => {
         if(element == ""){
@@ -27,12 +27,12 @@ const ProductUpdate= (props) => {
     const [price, setPrice] = useState();
     const [quantity, setQuantity] = useState();
     const [description, setDescription] = useState();
-    const [image, setImage] = useState();
+    const [image, setImage] = useState("image");
+    const [prevImage, setPrevImage] = useState();
     const [stock, setStock] = useState(true);
     const [category, setCategory] = useState([]);
     const [categories, setCategories] = useState([]);
     const [feature, setFeature] = useState([]);
-    const [article, setArticle] = useState();
 
     const getArticle = () => {
         const header = {
@@ -51,6 +51,10 @@ const ProductUpdate= (props) => {
                 setStock(data.item.stock);
                 setCategory(data.item.categories[0]);
                 setFeature(data.item.features[0]);
+                if( data.item.images[0] !== undefined){
+                    setPrevImage("http://127.0.0.1:8000" + data.item.images[0].url);
+                }
+                
             }else {
                 console.log("Une erreur est survenue");
             }
@@ -97,10 +101,15 @@ const ProductUpdate= (props) => {
 
     return(      
         <div className="single-product-area section-space-top-100">
+            
             <div className="container">
                 <div className="row justify-content-center">
                     <div className="col-lg-6 pt-5 pt-lg-0">
+                        <div className="price-box">
+                            <Link to="/admin">&larr; Retour</Link>
+                        </div>
                         <form className="single-product-content" onSubmit={handleSubmit}>
+                            
                             <div className="price-box">
                                 <span className="new-price">Nom du produit</span>
                                 <div>
@@ -147,6 +156,13 @@ const ProductUpdate= (props) => {
                                     <label className="form-check-label" htmlFor="flexRadioDefault2">
                                     En Rupture de Stock
                                     </label>
+                                </div>
+                                <div className="col-xl-6 col-lg-6 col-md-12 mx-auto mb-4">
+                                    <div className="tm-product-img-edit mx-auto">
+                                        { typeof image != "string" ? <img src={URL.createObjectURL(image)} alt="Image produit" className="img-fluid d-block mx-auto" />
+                                            : <img src={prevImage} alt="Image produit" className="img-fluid d-block mx-auto" />
+                                        }
+                                    </div>
                                 </div>
                                 <div className="input-group mb-3">
                                     <label className="input-group-text" htmlFor="inputGroupFile01">Ajouter une image</label>

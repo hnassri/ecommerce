@@ -38,7 +38,9 @@ const Category = (props) => {
                 console.log("Une erreur est survenue");
             }
         })
-        .catch((e)=>{alert('impossible de supprimer un catégorie parent')})
+        .catch((e)=>{
+            alert('Impossible de supprimer une catégorie contenant des produits')
+        })
     }
 
     return(

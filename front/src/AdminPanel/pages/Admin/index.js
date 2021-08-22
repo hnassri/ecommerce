@@ -1,5 +1,4 @@
 import React from "react";
-import BreadCrumb from "../../../UserPanel/components/BreadCrumb";
 import SlideBar from '../../components/SlideBar';
 import DefaultAdmin from '../../components/DefaultAdmin';
 import Product from '../../components/Product';

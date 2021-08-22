@@ -185,8 +185,11 @@ class ArticleController extends AbstractController
         
         $entityManager->persist($article);
         if($entityManager->flush() !== false){
-            $this->removeImages($article, $entityManager);
-            $this->setImages($article, $request, $entityManager);
+            if($request->files->get("images") !== null){
+                $this->removeImages($article, $entityManager);
+                $this->setImages($article, $request, $entityManager);
+            }
+            
             $this->removeFeatures($article, $entityManager);
             $this->setFeatures($article, $request, $entityManager);
             $this->removeCategories($article, $entityManager);

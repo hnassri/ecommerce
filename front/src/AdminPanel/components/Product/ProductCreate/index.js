@@ -78,8 +78,10 @@ const ProductCreateForm = (props) => {
     }
     return(
         <div className="tab-pane " id="account-orders" role="tabpanel" aria-labelledby="account-orders-tab">
+            
         <div className="p-4">
-            <h2 className="widgets-title mb-4">Produits</h2>
+            <Link to="/admin">&larr; Retour</Link>
+            <h2 className="widgets-title mb-4">Créer un produit</h2>
         </div>
         <form className="single-product-content" onSubmit={handleSubmit}>
         <div className="row">
@@ -104,13 +106,13 @@ const ProductCreateForm = (props) => {
                         <ul className="mb-3">
                             <li className="short">
                                 <select className="nice-select"  onChange={e => setCategory(e.target.value)}>
-                                <option value="">CHOISIR UN CATEGORIE</option>
+                                <option value="">CHOISIR UNE CATEGORIE</option>
                                     {data ?
                                         data.map((value, index) => {
                                             return <option value={value.name} key={index}>{value.name}</option>
                                         })
                                         :
-                                        <option value="">AUCUN CATEGORIE</option>
+                                        <option value="">AUCUNE CATEGORIE EXISTANTE</option>
                                     }
                                 
                                 </select>
@@ -133,7 +135,9 @@ const ProductCreateForm = (props) => {
             </div>
             <div className="col-xl-6 col-lg-6 col-md-12 mx-auto mb-4">
                 <div className="tm-product-img-edit mx-auto">
-                    <img src="/assets/images/product/medium-size/1-1-270x300.jpg" alt="Image produit" className="img-fluid d-block mx-auto" />
+                    {image ? <img src={URL.createObjectURL(image)} alt="Image produit" className="img-fluid d-block mx-auto" />
+                        : <img src="/assets/images/product/medium-size/1-1-270x300.jpg" alt="Image produit" className="img-fluid d-block mx-auto" />
+                    }
                 </div>
                 <div className="custom-file mt-3 mb-3">
                     <input type="file" className="form-control" id="inputGroupFile01" onChange={e => setImage(e.target.files[0])}/>
