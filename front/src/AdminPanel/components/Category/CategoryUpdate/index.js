@@ -50,27 +50,30 @@ const CategoryUpdate= (props) => {
 
     return(
         <div className="login-register-area section-space-y-axis-100">
-        <div className="container">
-            <div className="row">
-                <div className="col-lg-6 offset-md-3">
-                    <form onSubmit={handleSubmit}>
-                        <div className="login-form">
-                            <h4 className="login-title">MODIFICATION D'UN CATEGORIE</h4>
-                            <div className="row">
-                                <div className="col-md-12">
-                                    <label>Name</label>
-                                    <input className="cart-plus-minus-box" type="text" value={name} required onChange={e => setname(e.target.value)}/>
-                                </div>
-                                <div className="col-12">
-                                    <button className="btn btn-custom-size lg-size btn-webshop-primary">Sauvegarder</button>
+            <div className="container">
+                <div className="row">
+                    <div className="col-lg-6 offset-md-3">
+                        <div className="price-box">
+                            <Link to="/admin">&larr; Retour</Link>
+                        </div>
+                        <form onSubmit={handleSubmit}>
+                            <div className="login-form">
+                                <h4 className="login-title">MODIFICATION D'UN CATEGORIE</h4>
+                                <div className="row">
+                                    <div className="col-md-12">
+                                        <label>Name</label>
+                                        <input className="cart-plus-minus-box" type="text" value={name} required onChange={e => setname(e.target.value)}/>
+                                    </div>
+                                    <div className="col-12">
+                                        <button className="btn btn-custom-size lg-size btn-webshop-primary">Sauvegarder</button>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </form>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
     )
 }
 

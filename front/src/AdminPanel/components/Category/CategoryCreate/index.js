@@ -34,27 +34,30 @@ const Category = (props) => {
     }
     return(
         <div className="login-register-area section-space-y-axis-100">
-        <div className="container">
-            <div className="row">
-                <div className="col-lg-6 offset-md-3">
-                    <form onSubmit={handleSubmit}>
-                        <div className="login-form">
-                            <h4 className="login-title">ENREGISTRER UN CATEGORIE</h4>
-                            <div className="row">
-                                <div className="col-md-12">
-                                    <label>Name</label>
-                                    <input type="name" placeholder="name" onChange={event => setName(event.target.value)}/>
+            <div className="container">
+                <div className="row">
+                    <div className="col-lg-6 offset-md-3">
+                        <div className="price-box">
+                            <Link to="/admin">&larr; Retour</Link>
+                        </div>
+                        <form onSubmit={handleSubmit}>
+                            <div className="login-form">
+                                <h4 className="login-title">ENREGISTRER UN CATEGORIE</h4>
+                                <div className="row">
+                                    <div className="col-md-12">
+                                        <label>Name</label>
+                                        <input type="name" placeholder="name" onChange={event => setName(event.target.value)}/>
+                                    </div>
                                 </div>
-                            </div>
-                            <div className="col-12">
-                                <button className="btn btn-custom-size lg-size btn-webshop-primary">Sauvegarder</button>
-                            </div>
-                        </div> 
-                    </form>
+                                <div className="col-12">
+                                    <button className="btn btn-custom-size lg-size btn-webshop-primary">Sauvegarder</button>
+                                </div>
+                            </div> 
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
     )
 }
 
